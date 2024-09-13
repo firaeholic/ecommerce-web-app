@@ -1,0 +1,50 @@
+<div class="filter-grid">
+    <nz-select nzMode="multiple" nzPlaceHolder="Category" nzSuffixIcon="down" style="width: 100%;">
+      <nz-option *ngFor="let option of ['Checkbox 1', 'Checkbox 2', 'Checkbox 3']" [nzLabel]="option" [nzValue]="option">
+        <label nz-checkbox>{{option}}</label>
+      </nz-option>
+    </nz-select>
+  
+    <nz-select
+    [nzPlaceHolder]="dynamicPlaceholder"
+    [(ngModel)]="selectedValue"
+    [nzDropdownRender]="tplDropdown"
+    [(nzOpen)]="isDropdownOpen"
+    style="width: 100%;"
+  >
+    <ng-template #tplDropdown>
+      <div style="padding: 8px;">
+        <div>Min:</div>
+        <input type="number" nz-input placeholder="Min value" [(ngModel)]="minValue" class="price-input" />
+  
+        <div>Max:</div>
+        <input type="number" nz-input placeholder="Max value" [(ngModel)]="maxValue" class="price-input" />
+  
+        <!-- Add a confirm button to apply the range selection -->
+        <button nz-button nzType="primary" (click)="applyPriceRange()">Apply</button>
+      </div>
+    </ng-template>
+  </nz-select>
+
+    <nz-select nzMode="multiple" nzPlaceHolder="Dropdown 3" nzSuffixIcon="down" style="width: 100%;">
+        <nz-option *ngFor="let option of ['Checkbox 4', 'Checkbox 5', 'Checkbox 6']" [nzLabel]="option" [nzValue]="option">
+          <label nz-checkbox>{{option}}</label>
+        </nz-option>
+      </nz-select>
+
+      <nz-select nzMode="multiple" nzPlaceHolder="Dropdown 4" nzSuffixIcon="down" style="width: 100%;">
+        <nz-option *ngFor="let option of ['Checkbox 4', 'Checkbox 5', 'Checkbox 6']" [nzLabel]="option" [nzValue]="option">
+          <label nz-checkbox>{{option}}</label>
+        </nz-option>
+      </nz-select>
+
+      <nz-select nzMode="multiple" nzPlaceHolder="Dropdown 5" nzSuffixIcon="down" style="width: 100%;">
+        <nz-option *ngFor="let option of ['Checkbox 4', 'Checkbox 5', 'Checkbox 6']" [nzLabel]="option" [nzValue]="option">
+          <label nz-checkbox>{{option}}</label>
+        </nz-option>
+      </nz-select>
+
+      <button nz-button nzType="primary">Search</button>
+  
+    <!-- Add more dropdowns as needed -->
+  </div>

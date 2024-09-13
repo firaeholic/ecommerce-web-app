@@ -1,0 +1,19 @@
+<div class="purchase-requests-container">
+    <h2 class="title">Purchase Requests</h2>
+  
+    <div *ngFor="let request of requests" class="purchase-request-card">
+      <div class="product-image">
+        <img [src]="request.image" alt="{{ request.productName }}" />
+      </div>
+      <div class="product-details">
+        <h3>{{ request.productName }}</h3>
+        <p><strong>User:</strong> {{ request.userName }}</p>
+        <p><strong>Quantity:</strong> {{ request.amount }}</p>
+      </div>
+      <div class="action-buttons">
+        <button (click)="approveRequest(request)" class="done-button">Done</button>
+        <button (click)="rejectRequest(request)" class="reject-button">Reject</button>
+      </div>
+    </div>
+  </div>
+  

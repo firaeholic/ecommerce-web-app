@@ -1,0 +1,35 @@
+<div class="container">
+    <h1 class="title">Add a Product</h1>
+    <form>
+        <div class="propdet">
+            <div class="head">
+                <p>Product Details </p>
+            </div>
+            <div class="filter">
+                <label for="propname">Name:</label>
+                <input [(ngModel)]="product.name" type="text" id="name" name="name" #name placeholder="Name">
+            </div>
+            <div class="filter">
+                <label for="description">Description:</label>
+                <textarea [(ngModel)]="product.description" id="description" name="description" #description placeholder="Description"></textarea>
+            </div>
+            <div class="filter">
+                <label for="bedroom">Quantity</label>
+                <input [(ngModel)]="product.quantity" type="number" id="quantity" name="quantity" #quantity placeholder="Total Quantity">
+            </div>
+            <div class="filter">
+                <label>Price</label>
+                <input [(ngModel)]="product.price" #price type="text" name="price" placeholder="Price">
+            </div>
+            <div class="filter">
+                <label for="images">Images:</label>
+                <input required type="file" (change)="onFileChange($event)"  id="images" name="images" #images accept="image/*" multiple>
+            </div>
+        </div>
+        <div class="buttons">
+            <button (click)="clearFields(images, quantity, description, name, price)" 
+                class="clear-button">Clear all</button>
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

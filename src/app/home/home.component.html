@@ -1,0 +1,74 @@
+<div class="home-container">
+
+
+      <div class="search-head">
+        <h1>All you need is here</h1>
+      </div>
+
+      <div class="search-img">
+            <img src="../../assets/EC_Retail_ECommerce_750-transformed.jpeg" alt="search">
+      </div>
+
+
+
+        <div class="search-overlay">
+            <input type="text" placeholder="Search for products..." class="search-bar">
+            <div routerLink="/filter" class="filter">Filter</div>
+            <div class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
+                    <path fill="#199be2" d="M35.983,32.448l-3.536,3.536l7.87,7.87c0.195,0.195,0.512,0.195,0.707,0l2.828-2.828	c0.195-0.195,0.195-0.512,0-0.707L35.983,32.448z"></path>
+                    <radialGradient id="KGt2acGa95QyN2j07oBX6a_KPmthqkeTgDN_gr1" cx="20.024" cy="20.096" r="19.604" gradientUnits="userSpaceOnUse">
+                        <stop offset=".693" stop-color="#006185"></stop>
+                        <stop offset=".921" stop-color="#35c1f1"></stop>
+                    </radialGradient>
+                    <polygon fill="url(#KGt2acGa95QyN2j07oBX6a_KPmthqkeTgDN_gr1)" points="31.601,28.065 28.065,31.601 32.448,35.983 35.983,32.448"></polygon>
+                    <linearGradient id="KGt2acGa95QyN2j07oBX6b_KPmthqkeTgDN_gr2" x1="8.911" x2="31.339" y1="8.911" y2="31.339" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#a3ffff"></stop>
+                        <stop offset=".223" stop-color="#9dfbff"></stop>
+                        <stop offset=".53" stop-color="#8bf1ff"></stop>
+                        <stop offset=".885" stop-color="#6ee0ff"></stop>
+                        <stop offset="1" stop-color="#63daff"></stop>
+                    </linearGradient>
+                    <circle cx="20" cy="20" r="16" fill="url(#KGt2acGa95QyN2j07oBX6b_KPmthqkeTgDN_gr2)"></circle>
+                </svg>
+            </div>
+        </div>
+
+        <div class="categories">
+          <div class="categories__header">
+            <h2>Categories</h2>
+          </div>
+          <div class="categories__list">
+  
+              <ngb-carousel [interval]="2000" [wrap]="true" [pauseOnHover]="true" [keyboard]="true">
+                  <ng-template ngbSlide *ngFor="let c of categories">
+                    <div class="category-card">
+                      {{ c.name }}
+                    </div>
+                  </ng-template>
+              </ngb-carousel>
+                
+          </div>
+         </div>
+
+        <div class="button-group">
+          <button nz-button nzType="primary" [class.active]="isActive(0)" (click)="setActiveButton(0)">All</button>
+          <button nz-button nzType="primary" [class.active]="isActive(1)" (click)="setActiveButton(1)">Latest</button>
+          <button nz-button nzType="primary" [class.active]="isActive(2)" (click)="setActiveButton(2)">Trending</button>  
+        </div>  
+
+
+      <div class="products">
+        <div  class="card-list" style="display: flex; flex-wrap: wrap; justify-content: center;">
+            <app-card  *ngFor="let product of products" [product]="product" [id] = "product.id" [image]="product.imageUrls" 
+                    [price]="product.pricePerItem + 'Birr /item' " [title]="product.name"
+                    [productType]="product.productType" 
+                    [status]="product.status" [imageWidth]="300" [imageHeight]="200" 
+                    style="width: calc(33.33% - 10px); padding: 10px 10px 10px 0;"
+                    (addToCart)="addToCart($event)">
+            </app-card>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+</div>

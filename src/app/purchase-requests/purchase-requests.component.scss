@@ -1,0 +1,87 @@
+.purchase-requests-container {
+    max-width: 800px;
+    margin: 5% auto;
+    padding: 20px;
+    background-color: #e2edf7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+  
+.purchase-request-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+.product-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+  
+.product-details {
+    flex-grow: 1;
+}
+  
+.product-details h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #555;
+}
+  
+.product-details p {
+    margin: 5px 0;
+    color: #777;
+}
+  
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+  
+.done-button,
+  .reject-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+.done-button {
+    background-color: #28a745;
+    color: #fff;
+}
+  
+.reject-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+  
+.done-button:hover {
+    background-color: #218838;
+}
+  
+.reject-button:hover {
+    background-color: #c82333;
+}
+
+.done-button:active,
+.reject-button:active {
+  transform: scale(0.95);
+//   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}

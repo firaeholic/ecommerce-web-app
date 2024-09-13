@@ -1,0 +1,65 @@
+<div class="product-container">
+    <div class="product-container-image">
+        <ngb-carousel [interval]="4000" [wrap]="true" [pauseOnHover]="true" [keyboard]="true">
+            <ng-template ngbSlide *ngFor="let imageurl of showcaseImages">
+              <div class="image-item">
+                <img [src]="imageurl" alt="Random slide">
+              </div>
+            </ng-template>
+        </ngb-carousel>
+    </div>
+    <div class="product-container-details">
+        <h2 class="title">{{ product.name }}</h2>
+        <div class="reviews">
+          <div class="rating">
+            <i nz-icon nzType="star" nzTheme="fill"></i>
+            <i nz-icon nzType="star" nzTheme="fill"></i>
+            <i nz-icon nzType="star" nzTheme="fill"></i>
+            <i nz-icon nzType="star" nzTheme="fill"></i>
+            <i nz-icon nzType="star"></i>
+          </div>
+          <span class="review-link"
+            >10 Review(s) |
+            <span style="cursor: pointer">Add your review</span></span
+          >
+        </div>
+        <div class="price-container">
+          <h2 class="price">{{ product.price | currency: "ETB" }}</h2>
+          <span
+            class="availability"
+            [ngStyle]="{ color: quantity > 0 ? 'inherit' : 'red' }"
+            >{{ quantity === 0 || quantity > product.quantity ? "Out of stock" : "In stock" }}</span
+          >
+        </div>
+        <div class="description">{{ product.description }}</div>
+        <div class="cta">
+          <div class="add-to-cart">
+            <span>QTY:</span>
+            <nz-input-number
+              [(ngModel)]="quantity"
+              [nzMin]="product.quantity > 0 ? 1 : 0"
+              
+              [nzStep]="1"
+            ></nz-input-number>
+            <button
+              nz-button
+              nzType="primary"
+              [disabled]="quantity === 0 || quantity > product.quantity"
+              (click)="addToCart()"
+            >
+              Add to cart
+            </button>
+          </div>
+          <div class="category">
+            <span>Category: </span> {{ product.category }}
+          </div>
+          <div class="social-links">
+            <span>Share: </span>
+            <i nz-icon nzType="facebook" nzTheme="outline"></i>
+            <i nz-icon nzType="twitter" nzTheme="outline"></i>
+            <i nz-icon nzType="google-plus" nzTheme="outline"></i>
+            <i nz-icon nzType="mail" nzTheme="outline"></i>
+          </div>
+        </div>
+      </div>
+</div>
