@@ -19,8 +19,8 @@
             <i nz-icon nzType="star"></i>
           </div>
           <span class="review-link"
-            >10 Review(s) |
-            <span style="cursor: pointer">Add your review</span></span
+            >10 Review(s)
+            </span
           >
         </div>
         <div class="price-container">
@@ -28,10 +28,10 @@
           <span
             class="availability"
             [ngStyle]="{ color: quantity > 0 ? 'inherit' : 'red' }"
-            >{{ quantity === 0 || quantity > product.quantity ? "Out of stock" : "In stock" }}</span
+            >{{ quantity === 0 || quantity > product.quantity ? "Out of stock" : "In stock" }} </span
           >
         </div>
-        <div class="description">{{ product.description }}</div>
+        <div class="remain">Remaining in stock: <b>{{product.quantity}}</b></div>
         <div class="cta">
           <div class="add-to-cart">
             <span>QTY:</span>
@@ -51,14 +51,15 @@
             </button>
           </div>
           <div class="category">
-            <span>Category: </span> {{ product.category }}
+            <span>Category: </span> <b>{{ product.category }}</b>
           </div>
+          <div class="description">About the product: <p>{{ product.description }} Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quasi ipsum incidunt exercitationem neque rem voluptatum? Dolorem, alias, animi praesentium voluptatibus consequuntur dolor vitae nostrum architecto totam mollitia sit beatae!</p></div>
           <div class="social-links">
             <span>Share: </span>
-            <i nz-icon nzType="facebook" nzTheme="outline"></i>
-            <i nz-icon nzType="twitter" nzTheme="outline"></i>
-            <i nz-icon nzType="google-plus" nzTheme="outline"></i>
-            <i nz-icon nzType="mail" nzTheme="outline"></i>
+            <i nz-icon nzType="facebook"></i>
+            <i nz-icon nzType="twitter"></i>
+            <i nz-icon nzType="google-plus"></i>
+            <i nz-icon nzType="mail"></i>
           </div>
         </div>
       </div>

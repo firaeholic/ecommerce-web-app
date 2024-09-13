@@ -7,7 +7,7 @@
 }
 
 .product-container-image {
-    width: 100%;
+    width: 40%;
 }
 
 .ngb-carousel {
@@ -19,6 +19,7 @@
     justify-content: center;
     align-items: center;
     height: 400px;
+    width: 100%;
 }
 
 .image-item img {
@@ -29,8 +30,8 @@
 }
 
 .product-container-details { 
-    max-width: 1024px;
-    margin-right: 23%;
+    max-width: 40%;
+    // margin-right: 23%;
     padding: 16px;
     .title {
       font-size: 1.5rem;
@@ -70,6 +71,10 @@
         font-size: 1rem;
         text-transform: uppercase;
       }
+    }
+    .remain{
+        font-size: 1.2rem;
+        margin-bottom: 12px;
     }
     .description {
       margin-bottom: 20px;
