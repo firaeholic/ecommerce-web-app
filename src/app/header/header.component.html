@@ -1,8 +1,9 @@
 <header>
     <div class="container">
-      <a routerLink="/" class="logo">LOGO</a>
-
-      <nav>
+      <div class="toggle-container">
+        <button class="nav-toggle" aria-label="Toggle navigation" (click)="toggleNav()">☰</button>
+      </div>
+      <nav [class.active]="isNavActive" class="nav-menu">
         <ul>
           <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
           <li><a routerLink="#" routerLinkActive="active">About</a></li>

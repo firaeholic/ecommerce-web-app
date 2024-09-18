@@ -43,7 +43,8 @@
               <ngb-carousel [interval]="2000" [wrap]="true" [pauseOnHover]="true" [keyboard]="true">
                   <ng-template ngbSlide *ngFor="let c of categories">
                     <div class="category-card">
-                      {{ c.name }}
+                     <img [src] = "c.imageUrl" alt="{{c.name}}" class="category-image">
+                     <div class="category-name">{{ c.name }}</div>
                     </div>
                   </ng-template>
               </ngb-carousel>
@@ -58,17 +59,22 @@
         </div>  
 
 
-      <div class="products">
-        <div  class="card-list" style="display: flex; flex-wrap: wrap; justify-content: center;">
-            <app-card  *ngFor="let product of products" [product]="product" [id] = "product.id" [image]="product.imageUrls" 
-                    [price]="product.pricePerItem + 'Birr /item' " [title]="product.name"
-                    [productType]="product.productType" 
-                    [status]="product.status" [imageWidth]="300" [imageHeight]="200" 
-                    style="width: calc(33.33% - 10px); padding: 10px 10px 10px 0;"
-                    (addToCart)="addToCart($event)">
+        <div class="products">
+          <div class="card-list">
+            <app-card *ngFor="let product of products" 
+                      [product]="product" 
+                      [id]="product.id" 
+                      [image]="product.imageUrls" 
+                      [price]="product.pricePerItem + ' Birr /item'" 
+                      [title]="product.name"
+                      [productType]="product.productType" 
+                      [status]="product.status" 
+                      [imageWidth]="300" 
+                      [imageHeight]="200" 
+                      (addToCart)="addToCart($event)">
             </app-card>
+          </div>
         </div>
-      </div>
 
       <app-footer></app-footer>
 </div>

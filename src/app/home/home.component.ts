@@ -17,12 +17,17 @@ export class HomeComponent implements OnInit {
   categories: any[] = [
     {
       name: 'Laptops',
+      imageUrl: "https://cdn.thewirecutter.com/wp-content/media/2024/07/laptopstopicpage-2048px-3685-2x1-1.jpg?width=2048&quality=75&crop=2:1&auto=webp"
     },
     {
-      name: 'Accessories',
+      name: 'Watches',
+      imageUrl: "https://media.gq-magazine.co.uk/photos/6660cf60aa9580e0fa0b0b91/16:9/w_1280,c_limit/Best-watch-brands-hp.jpeg"
+
     },
     {
-      name: 'Cameras',
+      name: 'Vegetables',
+      imageUrl: "https://www.bhg.com/thmb/Mwd_YEkDbVg_fPsUDcWr3eZk9W0=/5645x0/filters:no_upscale():strip_icc()/difference-between-fruits-vegetables-01-5f92e7ec706b463287bcfb46985698f9.jpg"
+
     },
   ];
 
