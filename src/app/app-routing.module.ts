@@ -11,6 +11,7 @@ import { PurchaseRequestsComponent } from './purchase-requests/purchase-requests
 import { ChatComponent } from './chat/chat.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { LandingComponent } from './landing/landing.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'requests', component: PurchaseRequestsComponent},
   {path: 'chat', component: ChatComponent},
   {path: 'checkout', component: CheckoutComponent},
+  {path: 'profile', component: ProfileComponent}
 
 
 ];

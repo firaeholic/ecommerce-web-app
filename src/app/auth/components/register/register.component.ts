@@ -42,15 +42,16 @@ export class RegisterComponent {
           },
           error: (error) => {
             const errorMessage = this.extractErrorMessage(error.error.title);
-            this.openErrorDialog("An error occurred", errorMessage);
+            this.openErrorDialog("Error!", errorMessage);
 
           }
         });
       } else {
-        alert("Business License File is required!");
+        this.openErrorDialog("Error!", "Business License File is required!");
       }
     } else {
-      alert("All fields are required!");
+      this.openErrorDialog("Error!", "All fields are required!");
+
     }
   }
 
@@ -68,13 +69,15 @@ export class RegisterComponent {
   openErrorDialog(title: string, message: string): void {
     this.dialog.open(ErrorDialogComponent, {
       data: { title, message },
+      width: '400px'
     });
   }
 
   openConfirmDialog(title: string, message: string): Promise<void> {
     return new Promise<void>((resolve) => {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        data: { title, message }
+        data: { title, message },
+        width: '400px'
       });
   
       dialogRef.afterClosed().subscribe(() => {

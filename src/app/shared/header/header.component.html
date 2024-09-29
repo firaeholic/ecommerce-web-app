@@ -10,7 +10,7 @@
           <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
           <li><a routerLink="/chat" routerLinkActive="active">Contact</a></li>
           <li *ngIf="!isLoggedIn" ><a routerLink="/login" routerLinkActive="active">Login</a></li>
-          <li *ngIf="isLoggedIn" ><button class="profile" (click)="logout()" routerLinkActive="active">Profile</button></li>
+          <li *ngIf="isLoggedIn" ><button class="profile" routerLink="/profile" routerLinkActive="active">Profile</button></li>
 
         </ul>
       </nav>

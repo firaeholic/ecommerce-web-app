@@ -1,0 +1,93 @@
+<div class="container" *ngIf="currentUser">
+    <div class="main-body">
+      <div class="row gutters-sm">
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-column align-items-center text-center">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                <div class="mt-3">
+                  <h4>{{currentUser.userName}}</h4>
+                  <p class="text-secondary mb-1">{{currentUser.role}}</p>
+                  <p class="text-muted font-size-sm">{{this.joined}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mt-3">
+            <ul class="list-group list-group-flush">
+              <li class="verification-li list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0 verification-h">Verifications</h6>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">Email</h6>
+                <span class="text-secondary"><img src="../../assets/{{ currentUser.isVerified ? 'verified' : 'unverified' }}.png" width="20px" height="20px"></span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">Phone</h6>
+                <span class="text-secondary"><img src="../../assets/{{ currentUser.phoneNumberVerified ? 'verified' : 'unverified' }}.png" width="20px" height="20px"></span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">License</h6>
+                <span class="text-secondary"><img src="../../assets/{{ currentUser.isLicenseApproved ? 'verified' : 'unverified' }}.png" width="20px" height="20px"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="card mb-3 main-card">
+            <div class="card-body">
+              <div class="row info-div">
+                <div class="col-sm-3">
+                  <h6 class="mb-0 info-h">Information</h6>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Name</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    {{(currentUser.name) ? currentUser.phoneNumber : 'Not Available (Edit to add)'}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Email</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <a class="__cf_email__" >{{currentUser.email}}</a>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Phone</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{(currentUser.phoneNumber) ? currentUser.phoneNumber : 'Not Available (Edit to add)'}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Role</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    {{currentUser.role}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-12 d-flex justify-content-between">
+                  <button class="btn btn-info">Edit</button>
+                  <button (click)="logout()" class="btn btn-info btn-logout ml-auto">Logout</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -38,7 +38,7 @@ export class LoginComponent {
           const { user, token } = result;
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('access_token', token);
-          await this.openConfirmDialog('Login Successful', 'Logged in successfully! Redirecting to home page...');
+          await this.openConfirmDialog('Login Successful', 'Redirecting to home page...');
           window.location.href = '/home';
 
 
@@ -46,10 +46,14 @@ export class LoginComponent {
         error: error => {
           console.error('Error:', error);
           if (error.error.type == "NotFoundException") {
-            this.openErrorDialog("An error occurred", "User not found");
+            this.openErrorDialog("Error!", "User not found");
+          }else{
+            this.openErrorDialog("Error!", error.error.title);
           }
         }
       });
+    } else{
+      this.openErrorDialog('Error!', 'Please fill in all fields');
     }
   }
 
@@ -62,13 +66,15 @@ export class LoginComponent {
   openErrorDialog(title: string, message: string): void {
     this.dialog.open(ErrorDialogComponent, {
       data: { title, message },
+      width: '300px'
     });
   }
 
   openConfirmDialog(title: string, message: string): Promise<void> {
     return new Promise<void>((resolve) => {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        data: { title, message }
+        data: { title, message },
+        width: '300px'
       });
   
       dialogRef.afterClosed().subscribe(() => {

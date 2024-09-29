@@ -8,6 +8,7 @@ export default class UserModel{
     businessLicenseFile!: File;
     user!: {
         id: number;
+        name: string;
         userName: string;
         email: string;
         password: string;
@@ -29,4 +30,21 @@ export class RegisterUserModel{
     email!: string;
     password!: string;
     businessLicenseFile!: File;
+}
+
+export class CurrentUserModel{
+    [key: string]: any;
+    id!: number;
+    name!: string;
+    userName!: string;
+    password!: string;
+    email!: string;
+    role!: string;
+    businessLicenseFilePath!: string;
+    isVerified!: boolean;
+    isLicenseApproved!: boolean;
+    phoneNumber!: string;
+    phoneNumberVerified!: boolean;
+    created!: string;
+    lastModified!: string;
 }
