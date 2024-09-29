@@ -5,6 +5,8 @@ import {
   HostListener,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-home',
@@ -64,8 +66,11 @@ export class HomeComponent implements OnInit {
 
   activeButtonIndex: number = -1;
 
+  userId: number = 0;
+
   constructor(
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) {}
 
   addToCart(product: any): void {
@@ -73,6 +78,18 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if (typeof localStorage !== 'undefined') {
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser) {
+        const user = JSON.parse(currentUser);
+        this.userId = user.id;
+      }
+    }
+
+    // this.getUserById();
+
+    // this.getUsers();
 
 
     
@@ -92,6 +109,24 @@ export class HomeComponent implements OnInit {
     //   );
     // }, 500);
   }
+
+  // getUserById(): void {
+  //   this.auth.getUserById(this.userId).subscribe({
+  //     next: response => {
+  //       const { user } = response;
+  //       console.log(user);
+  //     }
+  //   }
+  //   )
+  // }
+
+  // getUsers(): void {
+  //   this.auth.getUsers(0).subscribe({
+  //     next: response => {
+  //       console.log(response);
+  //     }
+  //   })
+  // }
 
   isActive(index: number): boolean {
     return this.activeButtonIndex === index;

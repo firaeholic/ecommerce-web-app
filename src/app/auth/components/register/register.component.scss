@@ -67,3 +67,18 @@ a:hover{
 .login a{
     color: #da5767;
 }
+.custom-file-label {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-bottom: 5%;
+}
+
+#file-name {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #6c757d;
+}

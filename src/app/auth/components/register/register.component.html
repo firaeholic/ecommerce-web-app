@@ -6,19 +6,28 @@
         <h3 class="text-center">Register</h3>
          <form _lpchecked="1">
             <div class="form-group">
-               <input #firstNamevalue type="text" class="form-control" id="first_name" placeholder="First Name">
-            </div>
-            <div class="form-group">
-                <input #lastNamevalue type="text" class="form-control" id="last_name" placeholder="Last Name">
-             </div>
-            <div class="form-group">
-                <input #emailvalue type="email" class="form-control" id="email" placeholder="Email">
-            </div>             
-            <div class="form-group">
-                <input #passwordvalue type="password" class="form-control" id="password" placeholder="Password">
-            </div>
+                <input [(ngModel)]="user_name" name="user_name" type="text" class="form-control" id="user_name" placeholder="User Name">
+              </div>
+              <div class="form-group">
+                <select [(ngModel)]="role" name="role" class="form-control" id="role">
+                  <option value="" disabled selected>Select Role</option>
+                  <option value="Wholesaler">Wholesaler</option>
+                  <option value="Retailer">Retailer</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input [(ngModel)]="email" name="email" type="email" class="form-control" id="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <input [(ngModel)]="password" name="password" type="password" class="form-control" id="password" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <input #filevalue type="file" name="license_file" class="form-control" id="business_license_file" style="display: none;" (change)="updateFileName($event)">
+                <label for="business_license_file" class="custom-file-label">Business License File</label>
+                <span id="file-name">No file chosen</span>
+              </div>
             <div class="buttons">
-                <button class="btn btn-primary" type="button">Register</button>
+                <button (click)="registerUser()" class="btn btn-primary" type="button">Register</button>
                 <div class="login">
                     <p>Already have an account? <a routerLink="/login"><b>Login</b></a></p>
                 </div>

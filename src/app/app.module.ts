@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoginComponent } from './auth/components/login/login.component';
 import { RegisterComponent } from './auth/components/register/register.component';
-import { CardComponent } from './card/card.component';
+import { CardComponent } from './shared/card/card.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -34,13 +34,14 @@ import { FooterComponent } from './footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './shared/header/header.component';
 import { FilterComponent } from './filter/filter.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { PurchaseRequestsComponent } from './purchase-requests/purchase-requests.component';
 import { ChatComponent } from './chat/chat.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { LandingComponent } from './landing/landing.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
 
 registerLocaleData(en);
@@ -61,7 +62,8 @@ registerLocaleData(en);
     PurchaseRequestsComponent,
     ChatComponent,
     CheckoutComponent,
-    LandingComponent
+    LandingComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -17,21 +17,21 @@
         <div class="or-divider">
             <span class="or-text">or Login with Email</span>
         </div>
-         <form _lpchecked="1">
+        <form>
             <div class="form-group">
-                <input #email type="email" class="form-control" id="email" placeholder="Email" required>
+              <input [(ngModel)]="email" name="email" type="email" class="form-control" id="email" placeholder="Email" required>
             </div>             
             <div class="form-group">
-                <input #password type="password" class="form-control" id="password" placeholder="Password" required>
+              <input [(ngModel)]="password" name="password" type="password" class="form-control" id="password" placeholder="Password" required>
             </div>
             <div class="buttons">
-                <button  class="btn btn-primary" type="button">Login</button>
-                <a class="forgot" >Forgot Password?</a>
-                <div class="login">
-                    <p>New here? <a routerLink="/register">Register</a></p>
-                </div>
+              <button (click)="logUser()" class="btn btn-primary" type="button">Login</button>
+              <a class="forgot">Forgot Password?</a>
+              <div class="login">
+                <p>New here? <a routerLink="/register">Register</a></p>
+              </div>
             </div>
-        </form>
+          </form>
        </div>
     </div>
     <!-- <div class="forgot-password-section" *ngIf="showForgotPassword">

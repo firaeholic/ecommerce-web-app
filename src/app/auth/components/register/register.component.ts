@@ -1,6 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { provideRouter, Route, RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../../../shared/error-dialog/error-dialog.component';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-register',
@@ -8,11 +12,11 @@ import { provideRouter, Route, RouterLink } from '@angular/router';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  first_name: string = '';
-  last_name: string = '';
+  user_name: string = '';
+  role: string = '';
   email: string = '';
   password: string = '';
-  confirm_password: string = '';
+  business_license_file: File | null = null;
 
   passwordVisible = false;
 
@@ -21,34 +25,74 @@ export class RegisterComponent {
 
   constructor (
     private router : Router,
+    private auth: AuthService,
+    private dialog: MatDialog
   ){}
 
-  // registerUser(first_name: string, last_name: string, email: string, password: string){
-  //   if(first_name && last_name && email && password){
+  async registerUser() {
 
-  //     this.userService.registerUser(first_name, last_name, email, password).subscribe({
-  //       next: () => {
-  //         this.userService.logUser(email, password).subscribe({
-  //           next: user => {
-  //             alert('User registered successfully!');
-  //             localStorage.setItem('currentUser', JSON.stringify(user));
-  //             this.router.navigate(['/verify-email']);
-  //           },
-  //           error: error => {
-  //             alert(error.errors);
-  //           }
-  //         });
-  //       },
-  //       error: (error) => {
-  //         alert(error.error.errors);
-  //       }
-  //     })
-  //   }else{
-  //     alert("Fill all fields!");
-  //   }
+    if (this.user_name && this.role && this.email && this.password) {
+
+      if (this.business_license_file) {
+        this.auth.registerUser(this.user_name, this.role, this.email, this.password, this.business_license_file).subscribe({
+          next: async () => {
+            await this.openConfirmDialog('Registration Successful', 'User registered successfully! Redirecting to login page...');
+            this.router.navigate(['/login']);
+            
+          },
+          error: (error) => {
+            const errorMessage = this.extractErrorMessage(error.error.title);
+            this.openErrorDialog("An error occurred", errorMessage);
+
+          }
+        });
+      } else {
+        alert("Business License File is required!");
+      }
+    } else {
+      alert("All fields are required!");
+    }
+  }
+
+  extractErrorMessage(errorTitle: string): string {
+    const match = errorTitle.match(/: (.*?)(?= Severity:)/);
+    return match ? match[1].trim() : '';
+  }
+  
+  // extractErrorTitle(errorTitle: string): string {
+  //   const match = errorTitle.match(/-- (.*?):/);
+  //   return match ? match[1].trim() : 'An error occurred';
   // }
   
+
+  openErrorDialog(title: string, message: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: { title, message },
+    });
+  }
+
+  openConfirmDialog(title: string, message: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: { title, message }
+      });
   
+      dialogRef.afterClosed().subscribe(() => {
+        resolve();
+      });
+    });
+  }
+  
+  
+  updateFileName(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const fileName = input.files?.length ? input.files[0].name : 'No file chosen';
+    const fileNameElement = document.getElementById('file-name');
+    if (fileNameElement) {
+      fileNameElement.textContent = fileName;
+    }
+    this.business_license_file = input.files ? input.files[0] : null;
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
