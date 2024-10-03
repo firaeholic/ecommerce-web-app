@@ -1,24 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../shared/models/product';
+import { ProductService } from '../services/product/product.service';
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss'
 })
-export class AddProductComponent {
+export class AddProductComponent implements OnInit{
+
+  product: Product | any;
 
 
-  product: Product = {
-    id: 0,
-    name: '',
-    description: '',
-    price: 0,
-    imageUrls: '',
-    quantity: 0
-  };
+  
 
-  constructor() { }
+  constructor(
+    private productService: ProductService
+  ) { }
+
+  ngOnInit(): void {
+
+  }
 
   clearFields(imagesInput: any, bedroomInput: any, descriptionInput : any, nameInput : any, price: any) 
   {
@@ -30,7 +32,7 @@ export class AddProductComponent {
   }
 
   onFileChange(event: any): void {
-    this.product.imageUrls = event.target.files;
+    this.product.product.imagesPath = event.target.files;
   }
   }
 

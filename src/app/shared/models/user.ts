@@ -4,8 +4,16 @@ export default class UserModel{
     role!: string;
     email!: string;
     password!: string;
-    access_token!: string;
     businessLicenseFile!: File;
+    name!: string;
+    businessLicenseFilePath!: string;
+    isVerified!: boolean;
+    isLicenseApproved!: boolean;
+    phoneNumber!: string | null;
+    phoneNumberVerified!: boolean;
+    id!: number;
+    created!: string;
+    lastModified!: string;
     user!: {
         id: number;
         name: string;
@@ -22,6 +30,9 @@ export default class UserModel{
 		lastModified: string
     }
 }
+
+
+  
 
 export class RegisterUserModel{
     [key: string]: any;

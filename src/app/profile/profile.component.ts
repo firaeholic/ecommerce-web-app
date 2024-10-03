@@ -20,9 +20,11 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (typeof localStorage !== 'undefined') {
+
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     console.log(this.currentUser);
-
+    }
     const dateJoined = new Date(this.currentUser!.created);
     const year = dateJoined.getFullYear();
     const monthNumber = dateJoined.getMonth() + 1;

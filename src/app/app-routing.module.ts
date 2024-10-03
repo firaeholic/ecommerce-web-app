@@ -12,6 +12,7 @@ import { ChatComponent } from './chat/chat.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { LandingComponent } from './landing/landing.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'requests', component: PurchaseRequestsComponent},
   {path: 'chat', component: ChatComponent},
   {path: 'checkout', component: CheckoutComponent},
-  {path: 'profile', component: ProfileComponent}
+  {path: 'profile', component: ProfileComponent},
+  {path: 'user/:id', component: UserComponent}
 
 
 ];

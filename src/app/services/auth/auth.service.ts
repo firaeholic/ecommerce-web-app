@@ -4,6 +4,7 @@ import UserModel from '../../shared/models/user';
 import { RegisterUserModel } from '../../shared/models/user';
 import { ApiConfigService } from '../api-config/api-config.service';
 import loginData from '../../shared/models/login-data';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -39,13 +40,15 @@ export class AuthService {
     return this.apiConfigService.logUserConfig('api/userservice/user/login', data)
   }
 
-  getUser(): Observable<UserModel> {
-    return this.apiConfigService.getUserByIdConfig('api/userservice/user');
-  }
-
   getUserById(userId: number): Observable<UserModel> {
     const url = `${'api/userservice/user'}?ID=${userId}`;
-    return this.apiConfigService.getUserByIdConfig(url);
+    let token = '';
+    if (typeof localStorage !== 'undefined') {
+      token = localStorage.getItem('access_token') || '';
+    }
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    return this.apiConfigService.getUserByIdConfig(url, { headers });
   }
 
   getUsers(paginationId: number): Observable<UserModel[]> {

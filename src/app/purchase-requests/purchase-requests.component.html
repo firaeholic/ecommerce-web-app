@@ -1,18 +1,20 @@
-<div class="purchase-requests-container">
+<div class="purchase-requests-container" *ngIf="userHere && userHere.role == 'Admin'">
     <h2 class="title">Purchase Requests</h2>
   
-    <div *ngFor="let request of requests" class="purchase-request-card">
+    <div *ngFor="let order of orders" class="purchase-request-card">
       <div class="product-image">
-        <img [src]="request.image" alt="{{ request.productName }}" />
+        <img src="https://via.placeholder.com/150" alt="img here" />
       </div>
       <div class="product-details">
-        <h3>{{ request.productName }}</h3>
-        <p><strong>User:</strong> {{ request.userName }}</p>
-        <p><strong>Quantity:</strong> {{ request.amount }}</p>
+        <h3>{{ order.productNames }}</h3>
+        <p><strong>User:</strong> {{ order.user?.name }}<span> (</span> <a (click)="seeUserInfo(order.userID)" class="__cf_email__" >See user info</a><span>)</span></p>
+        <p><strong>Total price:</strong> {{ order.totalPrice }}</p>
+        <p><strong>Quantity:</strong> {{ getTotalQuantity(order) }}</p>
+
       </div>
       <div class="action-buttons">
-        <button (click)="approveRequest(request)" class="done-button">Done</button>
-        <button (click)="rejectRequest(request)" class="reject-button">Reject</button>
+        <button (click)="approveRequest(order)" class="done-button">Done</button>
+        <button (click)="rejectRequest(order)" class="reject-button">Reject</button>
       </div>
     </div>
   </div>

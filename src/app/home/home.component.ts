@@ -7,6 +7,10 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { response } from 'express';
+import { ProductService } from '../services/product/product.service';
+import { Product, Products } from '../shared/models/product';
+import { Order, Orders } from '../shared/models/order';
+import { OrderService } from '../services/order/order.service';
 
 @Component({
   selector: 'app-home',
@@ -59,6 +63,17 @@ export class HomeComponent implements OnInit {
       status: 'IN STOCK'
     }
   ];
+
+  product: Product | any;
+
+
+
+
+
+  AllProduct: Product[] = [];
+
+  Orders: Order[] = [];
+
   
   loading = false;
   productPageCounter = 1;
@@ -70,7 +85,9 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private productService: ProductService,
+    private orderService: OrderService
   ) {}
 
   addToCart(product: any): void {
@@ -86,6 +103,9 @@ export class HomeComponent implements OnInit {
         this.userId = user.id;
       }
     }
+
+    this.loadProducts();
+
 
     // this.getUserById();
 
@@ -109,6 +129,19 @@ export class HomeComponent implements OnInit {
     //   );
     // }, 500);
   }
+  loadProducts(): void {
+    this.productService.getProductsPagination().subscribe({
+      next: (response: Products) => {
+        const { products } = response;
+        this.AllProduct = products;
+        console.log(this.AllProduct);
+      },
+      error: error => {
+        console.error('Error:', error);
+      }
+    });
+  }
+
 
   // getUserById(): void {
   //   this.auth.getUserById(this.userId).subscribe({
