@@ -10,7 +10,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class CardComponent {
   @Input() id: any;
   @Input() type: any;
-  @Input() image: any;
+  @Input() imageUrl: any;
   @Input() price: any;
   @Input() title: any;
   @Input() productType: any;

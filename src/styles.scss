@@ -8,5 +8,9 @@ body::-webkit-scrollbar {
     display: none;
 }
 
+nz-card {
+    margin: 0 !important;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';

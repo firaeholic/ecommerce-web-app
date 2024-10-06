@@ -17,20 +17,6 @@ import { Router } from '@angular/router';
 })
 export class PurchaseRequestsComponent implements OnInit {
   
-  requests = [
-    {
-      userName: 'Birehanu',
-      productName: 'Wireless Headphones',
-      amount: 2,
-      image: 'https://via.placeholder.com/150'
-    },
-    {
-      userName: 'Frank',
-      productName: 'Smartphone',
-      amount: 1,
-      image: 'https://via.placeholder.com/150'
-    }
-  ];
 
   orders: Order[] = [];
   user: UserModel | any;
@@ -66,6 +52,7 @@ export class PurchaseRequestsComponent implements OnInit {
       next: (response: Orders) => {
         const { orders } = response;
         this.orders = orders;
+        console.log(this.orders);
         this.populateProductNames();
         this.getOrderUserInfo();
       },
@@ -78,11 +65,25 @@ export class PurchaseRequestsComponent implements OnInit {
   populateProductNames(): void {
     this.orders.forEach(order => {
       const productNames: string[] = [];
+      const imagePaths: string[] = []; // Initialize imagePaths for each order
+
       order.orderItems.forEach(orderItem => {
         this.productService.getSingleProduct(orderItem.productID).subscribe((product: Product) => {
           productNames.push(product.product.name);
           orderItem.productName = product.product.name; 
           order['productNames'] = productNames.join(' && ');
+  
+          // Collect image paths for the current order
+          if (product.product.imagesPath && product.product.imagesPath.length > 0) {
+            imagePaths.push(...product.product.imagesPath);
+          }
+  
+          // Assign a random image path to orderImagePath for the current order
+          if (imagePaths.length > 0) {
+            const randomIndex = Math.floor(Math.random() * imagePaths.length);
+            order['orderImagePath'] = imagePaths[randomIndex];
+            console.log(order['orderImagePath']);
+          }
         });
       });
     });

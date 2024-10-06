@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiConfigService } from '../api-config/api-config.service';
-import { Product, Products } from '../../shared/models/product';
+import { AddProduct, Product, Products } from '../../shared/models/product';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 
@@ -12,6 +12,28 @@ export class ProductService {
   constructor(
     private apiConfigService: ApiConfigService
   ) { }
+
+  addProduct(product: AddProduct){
+    const formData = new FormData();
+
+    formData.append('name', product.name);
+    formData.append('category', product.category);
+    formData.append('price', product.price.toString());
+    formData.append('amountLeft', product.amountLeft.toString());
+    formData.append('description', product.description);
+
+    Object.keys(product).forEach(key => {
+      if (key === 'images') {
+        for (let i = 0; i < product.images.length; i++) {
+          formData.append('Images', product.images[i]);
+        }
+      }
+  })
+
+    return this.apiConfigService.addProductConfig('api/productservice/product', formData);
+  }
+
+  
 
   getSingleProduct(prodId: number): Observable<Product> {
     const url = `${'api/productservice/product'}?ID=${prodId}`;

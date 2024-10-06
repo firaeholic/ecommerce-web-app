@@ -37,32 +37,32 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  products = [
-    {
-      id: 1,
-      imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
-      pricePerItem: 50,
-      name: 'Sun Chips',
-      productType: 'Food',
-      status: 'IN STOCK'
-    },
-    {
-      id: 2,
-      imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
-      pricePerItem: 2500,
-      name: 'Internet Cable',
-      productType: 'PC Equipment',
-      status: 'IN STOCK'
-    },
-    {
-      id: 3,
-      imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
-      pricePerItem: 200,
-      name: 'Apples',
-      productType: 'Food',
-      status: 'IN STOCK'
-    }
-  ];
+  // products = [
+  //   {
+  //     id: 1,
+  //     imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
+  //     pricePerItem: 50,
+  //     name: 'Sun Chips',
+  //     productType: 'Food',
+  //     status: 'IN STOCK'
+  //   },
+  //   {
+  //     id: 2,
+  //     imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
+  //     pricePerItem: 2500,
+  //     name: 'Internet Cable',
+  //     productType: 'PC Equipment',
+  //     status: 'IN STOCK'
+  //   },
+  //   {
+  //     id: 3,
+  //     imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
+  //     pricePerItem: 200,
+  //     name: 'Apples',
+  //     productType: 'Food',
+  //     status: 'IN STOCK'
+  //   }
+  // ];
 
   product: Product | any;
 
@@ -111,29 +111,19 @@ export class HomeComponent implements OnInit {
 
     // this.getUsers();
 
-
-    
-
-    // this.loading = true;
-    // setTimeout(() => {
-    //   this.productService.getAllProducts(9, this.productPageCounter).subscribe(
-    //     (res: any) => {
-    //       console.log(res);
-    //       this.products = res;
-    //       this.loading = false;
-    //     },
-    //     (err) => {
-    //       console.log(err);
-    //       this.loading = false;
-    //     }
-    //   );
-    // }, 500);
   }
   loadProducts(): void {
     this.productService.getProductsPagination().subscribe({
       next: (response: Products) => {
         const { products } = response;
-        this.AllProduct = products;
+        this.AllProduct = products.map(product => {
+          product.imagesPath = product.imagesPath.map((path: string) => 
+            path.replace(/\\/g, '/').replace(/ /g, '%20')
+
+          );
+          console.log(product.imagesPath)
+          return product;
+        });
         console.log(this.AllProduct);
       },
       error: error => {
@@ -169,21 +159,5 @@ export class HomeComponent implements OnInit {
     this.activeButtonIndex = index;
   }
 
-  // showMoreProducts(): void {
-  //   this.additionalLoading = true;
-  //   this.productPageCounter = this.productPageCounter + 1;
-  //   setTimeout(() => {
-  //     this.productService.getAllProducts(9, this.productPageCounter).subscribe(
-  //       (res: any) => {
-  //         console.log(res);
-  //         this.products = [...this.products, ...res];
-  //         this.additionalLoading = false;
-  //       },
-  //       (err) => {
-  //         console.log(err);
-  //         this.additionalLoading = false;
-  //       }
-  //     );
-  //   }, 500);
-  // }
+
 }

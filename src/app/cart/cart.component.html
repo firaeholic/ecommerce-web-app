@@ -15,10 +15,10 @@
           X
         </div>
         <div class="list-item__image">
-          <img [src]="product.image" alt="" />
+          <img [src]="product.imagesPath[0]" alt="" />
         </div>
         <div class="list-item__details">
-          <div class="title">{{ product.title }}</div>
+          <div class="title">{{ product.name }}</div>
           <div class="price">{{ product.price | currency: "ETB" }}</div>
           <div class="cta">
             <nz-input-number

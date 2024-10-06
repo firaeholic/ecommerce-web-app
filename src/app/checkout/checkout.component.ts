@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart/cart.service';
+import { CurrentUserModel } from '../shared/models/user';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
+import { CreateOrder } from '../shared/models/order';
+import { OrderService } from '../services/order/order.service';
+import { error } from 'console';
+import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-checkout',
@@ -7,7 +15,21 @@ import { CartService } from '../services/cart/cart.service';
   styleUrl: './checkout.component.scss'
 })
 export class CheckoutComponent implements OnInit {
-  currentUser: any;
+  currentUser: CurrentUserModel | null = null;
+  userId: number = 0;
+  deliveryDate: Date = new Date();
+  deliveryAddress: string = '';
+  paymentMethod: string = '';
+
+  orderModel: CreateOrder = {
+    userId: 0,
+    orderStatus: 'Pending',
+    deliveryDate: '',
+    orderItems: [],
+    deliveryAddress: '',
+    totalPrice: 0,
+  }
+
   currentStep = 1;
   cartData: any;
   products: any;
@@ -15,14 +37,32 @@ export class CheckoutComponent implements OnInit {
   successMessage = '';
   orderId : any;
 
-  constructor(private _cart: CartService) {
-
+  constructor(
+    private _cart: CartService,
+    private dialog: MatDialog,
+    private orderService: OrderService
+  ) {
     this._cart.cartDataObs$.subscribe((cartData) => {
       this.cartData = cartData;
+      this.orderModel.orderItems = this.cartData.products.map((product: any) => ({
+        productID: product.id,
+        quantity: product.quantity
+      }));
+      console.log(this.orderModel.orderItems);
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (typeof localStorage !== 'undefined') {
+
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      if(this.currentUser){
+        this.userId = this.currentUser?.id;
+        this.orderModel.userId = this.userId;
+      }
+
+      }
+  }
 
   submitCheckout() {
     this.loading = true;
@@ -31,7 +71,18 @@ export class CheckoutComponent implements OnInit {
         this.currentStep = 3;
         this.orderId = Math.floor(Math.random() * 1000000);
         this.products = this.cartData.products;
-        this._cart.clearCart();
+        this.orderService.createOrder(this.orderModel).subscribe({
+          next: response => {
+            console.log(response)
+            this.openConfirmDialog('Order successful', 'Order sent! Clearing cart...');
+            this._cart.clearCart();
+          },
+          error: error => {
+            this.openErrorDialog('Error!', 'An error has occurred');
+          } 
+        }
+
+        );
     }, 1500);
   }
 
@@ -40,15 +91,25 @@ export class CheckoutComponent implements OnInit {
   }
 
   submitBilling(): void {
-    this.nextStep();
+
+    const today = new Date();
+    const deliveryDate = new Date(this.deliveryDate);
+    const oneYearAhead = new Date(today);
+    oneYearAhead.setFullYear(today.getFullYear() + 1);
+
+    this.orderModel.deliveryDate = this.deliveryDate.toString();
+    this.orderModel.deliveryAddress = this.deliveryAddress;
+    this.orderModel.totalPrice = this.cartData.total;
+
+    console.log(this.orderModel);
+
+    if (deliveryDate > today && deliveryDate <= oneYearAhead) {
+        this.nextStep();
+    } else {
+        this.openErrorDialog('Invalid Date', 'Delivery date must be between today and one year ahead.');
+    }
   }
 
-  canBillingSubmit(): boolean {
-    return this.billingAddress.filter((field) => field.value.length > 0)
-      .length !== 7
-      ? true
-      : false;
-  }
 
   submitPayment(): void {
     this.nextStep();
@@ -66,48 +127,23 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  billingAddress = [
-    {
-      name: 'Full name',
-      placeholder: 'Enter your full name',
-      type: 'text',
-      value: '',
-    },
-    {
-      name: 'Email',
-      placeholder: 'Enter your email address',
-      type: 'email',
-      value: '',
-    },
-    {
-      name: 'Address',
-      placeholder: 'Enter your address',
-      type: 'text',
-      value: '',
-    },
-    {
-      name: 'City',
-      placeholder: 'Enter your city',
-      type: 'text',
-      value: '',
-    },
-    {
-      name: 'Country',
-      placeholder: 'Enter your country',
-      type: 'text',
-      value: '',
-    },
-    {
-      name: 'ZIP',
-      placeholder: 'Enter your zip code',
-      type: 'text',
-      value: '',
-    },
-    {
-      name: 'Telephone',
-      placeholder: 'Enter your telephone number',
-      type: 'text',
-      value: '',
-    },
-  ];
+  openErrorDialog(title: string, message: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: { title, message },
+      width: '400px'
+    });
+  }
+
+  openConfirmDialog(title: string, message: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: { title, message },
+        width: '300px'
+      });
+  
+      dialogRef.afterClosed().subscribe(() => {
+        resolve();
+      });
+    });
+  }
 }

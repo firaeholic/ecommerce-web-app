@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import UserModel from '../../shared/models/user';
+import UserModel, { UpdateUserModel } from '../../shared/models/user';
 import { RegisterUserModel } from '../../shared/models/user';
 import { ApiConfigService } from '../api-config/api-config.service';
 import loginData from '../../shared/models/login-data';
@@ -54,5 +54,19 @@ export class AuthService {
   getUsers(paginationId: number): Observable<UserModel[]> {
     const url = `${'api/userservice/user/paginated'}?ID=${paginationId}`;
     return this.apiConfigService.getUsersConfig(url);
+  }
+
+  updateUser(userInfo: UpdateUserModel): Observable<UpdateUserModel> {
+    const formData = new FormData();
+    formData.append('id', userInfo.id.toString());
+    if (userInfo.name) formData.append('name', userInfo.name);
+    if (userInfo.userName) formData.append('userName', userInfo.userName);
+    if (userInfo.email) formData.append('email', userInfo.email);
+    if (userInfo.password) formData.append('password', userInfo.password);
+    if (userInfo.role) formData.append('role', userInfo.role);
+    if (userInfo.phoneNumber) formData.append('phoneNumber', userInfo.phoneNumber);
+    if (userInfo.businessLicenseFile) formData.append('businessLicenseFile', userInfo.businessLicenseFile);
+
+    return this.apiConfigService.updateUserConfig('api/userservice/user/update', formData);
   }
 }

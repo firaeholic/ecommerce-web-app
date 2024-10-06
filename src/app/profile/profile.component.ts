@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { CurrentUserModel } from '../shared/models/user';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -14,9 +16,13 @@ export class ProfileComponent implements OnInit {
 
   joined: string = '';
 
+  userId: number | undefined;
+
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -25,6 +31,11 @@ export class ProfileComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     console.log(this.currentUser);
     }
+
+    this.route.paramMap.subscribe(params => {
+      this.userId = Number(params.get('id'));
+    });
+
     const dateJoined = new Date(this.currentUser!.created);
     const year = dateJoined.getFullYear();
     const monthNumber = dateJoined.getMonth() + 1;
@@ -54,6 +65,11 @@ export class ProfileComponent implements OnInit {
         resolve();
       });
     });
+  }
+
+  openEditProfile(){
+    this.router.navigate([`/edit-profile/${this.userId}`]);
+    console.log("clicked");
   }
 
 }

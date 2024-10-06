@@ -60,7 +60,7 @@
     .products{
         margin: 0 auto;
         padding: 0px 16px;
-        width: 96%;
+        margin-left: 3%;
 
         &__header {
           margin-bottom: 16px;
@@ -221,4 +221,45 @@
   .products .card-list app-card {
     width: calc(60% - 10px);  
   }
+}
+
+.header-c {
+  font-size: 60px;
+  font-family: 'Cursive', sans-serif;
+  color: #2c3e50;
+  text-align: center;
+  position: relative;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.header-c span {
+  display: inline-block;
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.header-p {
+  font-size: 60px;
+  font-family: 'Cursive', sans-serif;
+  color: #2c3e50;
+  text-align: center;
+  position: relative;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-right: 3.2%;
+}
+
+
+
+.header-p span {
+  display: inline-block;
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  -webkit-background-clip: text;
+  color: transparent;
 }

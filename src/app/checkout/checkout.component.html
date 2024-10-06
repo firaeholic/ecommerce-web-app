@@ -10,27 +10,78 @@
 
     <div *ngIf="currentStep === 1">
       <div class="billing-container">
-        <h2>Billing Address</h2>
+        <h2>Billing Details</h2>
         <form>
           <div
             class="input-container"
-            *ngFor="let field of billingAddress; index as i"
+            
           >
-            <label for="">{{ field.name }}</label>
-            <input
-              nz-input
-              [type]="field.type"
-              [name]="field.name"
-              [placeholder]="field.placeholder"
-              [(value)]="field.value"
-              [(ngModel)]="field.value"
-            />
+          <label for="name">Name</label>
+          <input
+            nz-input
+            type="text"
+            name="name"
+            [value]="currentUser?.name"
+            disabled
+          />
+        </div>
+        <div class="input-container">
+          <label for="email">Email</label>
+          <input
+            nz-input
+            type="email"
+            name="email"
+            [value]="currentUser?.email"
+            disabled
+          />
+        </div>
+        <div class="input-container">
+          <label for="phone">Phone</label>
+          <input
+            nz-input
+            type="text"
+            name="phone"
+            [value]="currentUser?.phoneNumber"
+            disabled
+          />
+        </div>
+        <div class="input-container">
+          <label for="paymentMethod">Preferred Payment Method</label>
+          <select
+            nz-input
+            name="paymentMethod"
+            [(ngModel)]="paymentMethod"
+            class="custom-select"
+          >
+            <option value="Cash">Cash</option>
+            <option value="Awash">Awash</option>
+            <option value="CBE">CBE</option>
+          </select>
+        </div>
+        <div class="input-container">
+          <label for="deliveryAddress">Delivery Address</label>
+          <input
+            nz-input
+            type="text"
+            name="deliveryAddress"
+            placeholder="Enter delivery address"
+            [(ngModel)]="deliveryAddress"
+          />
+          </div>
+        <div class="input-container">
+          <label for="deliveryDate">Delivery Date</label>
+          <input
+            nz-input
+            type="date"
+            name="deliveryDate"
+            placeholder="Enter delivery date"
+            [(ngModel)]="deliveryDate"
+          />
           </div>
         </form>
         <button
           nz-button
           (click)="submitBilling()"
-          [disabled]="canBillingSubmit()"
         >
           Continue
         </button>
@@ -43,9 +94,10 @@
           <h2>Order Summary</h2>
           <div class="details">
             <div><span>Item(s)</span> {{ cartData.products.length }}</div>
-            <div><span>Payment method</span><b>Cash</b></div>
+            <div><span>Preffered Payment method</span><b>{{paymentMethod}}</b></div>
+            <div><span>Expected delivery date</span><b>{{deliveryDate}}</b></div>
             <div>
-              <span>Order total</span> {{ cartData.total | currency: "ETB" }}
+              <span>Order total</span> {{ cartData.total | currency: "ETB " }}
             </div>
           </div>
           <button
@@ -62,10 +114,10 @@
           <div class="item-list">
             <div class="item-container" *ngFor="let item of cartData.products">
               <div class="item-image">
-                <img [src]="item.image" alt="" />
+                <img [src]="item.imagesPath[0]" alt="" />
               </div>
               <div class="item-title">
-                {{ item.title }}
+                {{ item.name }}
               </div>
               <div class="item-total">
                 {{ item.price | currency: "ETB" }} x {{ item.quantity }} =
@@ -96,10 +148,10 @@
           <div class="products-container__list">
             <div class="list-item" *ngFor="let item of products">
               <div class="item-image">
-                <img [src]="item.image" alt="" />
+                <img [src]="item.imagesPath[0]" alt="" />
               </div>
               <div class="item-title">
-                {{ item.title }}
+                {{ item.name }}
               </div>
               <div class="item-total">
                 {{ item.price | currency: "ETB" }} x {{ item.quantity }} =

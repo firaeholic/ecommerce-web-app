@@ -6,11 +6,12 @@
       <nav [class.active]="isNavActive" class="nav-menu">
         <ul>
           <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-          <li><a routerLink="#" routerLinkActive="active">About</a></li>
+          <li><a routerLink="/add-product" routerLinkActive="active">Add Product</a></li>
           <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
-          <li><a routerLink="/chat" routerLinkActive="active">Contact</a></li>
+          <li *ngIf="!isUserAdmin"><a routerLink="/chat" routerLinkActive="active">Contact</a></li>
+          <li *ngIf="isUserAdmin" ><a routerLink="/requests" routerLinkActive="active">Requests</a></li>
           <li *ngIf="!isLoggedIn" ><a routerLink="/login" routerLinkActive="active">Login</a></li>
-          <li *ngIf="isLoggedIn" ><button class="profile" routerLink="/profile" routerLinkActive="active">Profile</button></li>
+          <li *ngIf="isLoggedIn" ><button class="profile" (click)="openProfile()" routerLinkActive="active">Profile</button></li>
 
         </ul>
       </nav>

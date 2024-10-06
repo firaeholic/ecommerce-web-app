@@ -44,6 +44,7 @@ import { LandingComponent } from './landing/landing.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserComponent } from './user/user.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 
 registerLocaleData(en);
@@ -67,7 +68,8 @@ registerLocaleData(en);
     LandingComponent,
     ConfirmDialogComponent,
     ProfileComponent,
-    UserComponent
+    UserComponent,
+    UpdateProfileComponent
   ],
   imports: [
     BrowserModule,

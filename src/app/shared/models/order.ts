@@ -8,6 +8,7 @@ export class Order {
       orderStatus: OrderStatus;
       orderItems: OrderItem[];
       deliveryDate: string;
+      deliveryAddress: string;
       totalPrice: number;
       id: number;
       created: string;
@@ -19,11 +20,13 @@ export class Order {
     orderStatus!: OrderStatus;
     orderItems!: OrderItem[];
     deliveryDate!: string;
+    deliveryAddress!: string;
     totalPrice!: number;
     id!: number;
     created!: string;
     lastModified!: string;
     productNames?: string;
+    orderImagePath?: string;
   }
   
   export class Orders {
@@ -45,4 +48,13 @@ export class Order {
     Pending = 'Pending',
     Approved = 'Approved',
     Rejected = 'Rejected'
+  }
+
+  export class CreateOrder{
+    userId!: number;
+    orderStatus!: string;
+    orderItems!: OrderItem[];
+    deliveryDate!: string;
+    deliveryAddress!: string;
+    totalPrice!: number;
   }

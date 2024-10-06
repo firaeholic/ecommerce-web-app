@@ -1,66 +1,48 @@
 <div class="product-container">
     <div class="product-container-image">
         <ngb-carousel [interval]="4000" [wrap]="true" [pauseOnHover]="true" [keyboard]="true">
-            <ng-template ngbSlide *ngFor="let imageurl of showcaseImages">
-              <div class="image-item">
-                <img [src]="imageurl" alt="Random slide">
-              </div>
+            <ng-template ngbSlide *ngFor="let imageurl of product.imagesPath">
+                <div class="image-item">
+                    <img [src]="imageurl" alt="Random slide">
+                </div>
             </ng-template>
         </ngb-carousel>
     </div>
-    <div class="product-container-details">
-        <h2 class="title">{{ product.name }}</h2>
-        <div class="reviews">
-          <div class="rating">
-            <i nz-icon nzType="star" nzTheme="fill"></i>
-            <i nz-icon nzType="star" nzTheme="fill"></i>
-            <i nz-icon nzType="star" nzTheme="fill"></i>
-            <i nz-icon nzType="star" nzTheme="fill"></i>
-            <i nz-icon nzType="star"></i>
-          </div>
-          <span class="review-link"
-            >10 Review(s)
-            </span
-          >
+    <div class="product-detail-father">
+        <div class="product-container-details" *ngIf="product">
+            <h2 class="title">{{ product.name }}</h2>
+            <div class="price-container">
+                <h2 class="price">{{ product.price | currency: "ETB" }}</h2>
+                <span class="availability"
+                    [ngStyle]="{ color: quantity === 0 || quantity > product.amountLeft ? 'red' : 'inherit' }">
+                    {{ quantity === 0 || quantity > product.amountLeft ? "Out of stock" : "In stock" }}
+                </span>
+            </div>
+            <div class="description">
+                <span>Description: </span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea quod quis nam odio modi neque cumque minus dolor quae. Unde voluptates doloribus repellendus reiciendis veritatis debitis tempora impedit ipsa adipisci.
+            </div>
+            <div class="remain">Remaining in stock: <b>{{product.amountLeft}}</b></div>
+            <div class="cta">
+                <div class="add-to-cart">
+                    <span>QTY:</span>
+                    <nz-input-number [(ngModel)]="quantity" [nzMin]="0" [nzStep]="1"></nz-input-number>
+                    <button nz-button nzType="primary"
+                        [disabled]="!quantity || quantity == 0 || quantity > product.amountLeft"
+                        (click)="addToCart()">
+                        Add to cart
+                    </button>
+                </div>
+                <div class="category">
+                    <span>Category: </span> <b>{{ product.category }}</b>
+                </div>
+                <div class="social-links">
+                    <span>Share: </span>
+                    <i nz-icon nzType="facebook"></i>
+                    <i nz-icon nzType="twitter"></i>
+                    <i nz-icon nzType="google-plus"></i>
+                    <i nz-icon nzType="mail"></i>
+                </div>
+            </div>
         </div>
-        <div class="price-container">
-          <h2 class="price">{{ product.price | currency: "ETB" }}</h2>
-          <span
-            class="availability"
-            [ngStyle]="{ color: quantity > 0 ? 'inherit' : 'red' }"
-            >{{ quantity === 0 || quantity > product.quantity ? "Out of stock" : "In stock" }} </span
-          >
-        </div>
-        <div class="remain">Remaining in stock: <b>{{product.quantity}}</b></div>
-        <div class="cta">
-          <div class="add-to-cart">
-            <span>QTY:</span>
-            <nz-input-number
-              [(ngModel)]="quantity"
-              [nzMin]="product.quantity > 0 ? 1 : 0"
-              
-              [nzStep]="1"
-            ></nz-input-number>
-            <button
-              nz-button
-              nzType="primary"
-              [disabled]="quantity === 0 || quantity > product.quantity"
-              (click)="addToCart()"
-            >
-              Add to cart
-            </button>
-          </div>
-          <div class="category">
-            <span>Category: </span> <b>{{ product.category }}</b>
-          </div>
-          <div class="description">About the product: <p>{{ product.description }} Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quasi ipsum incidunt exercitationem neque rem voluptatum? Dolorem, alias, animi praesentium voluptatibus consequuntur dolor vitae nostrum architecto totam mollitia sit beatae!</p></div>
-          <div class="social-links">
-            <span>Share: </span>
-            <i nz-icon nzType="facebook"></i>
-            <i nz-icon nzType="twitter"></i>
-            <i nz-icon nzType="google-plus"></i>
-            <i nz-icon nzType="mail"></i>
-          </div>
-        </div>
-      </div>
+    </div>
 </div>

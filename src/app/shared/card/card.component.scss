@@ -1,95 +1,64 @@
-.ant-card {
-  position: relative;
-  transition: box-shadow 0.3s ease;
-  margin: 0;
-  border-radius: 10px;
-  border: 0.5px solid #eeecec;
-  padding: 0;
-  overflow: hidden; 
+.product-card {
+  transition: transform 0.2s;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
-
-.ant-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+.product-card:hover {
+  transform: translateY(-5px);
 }
 
-.card-background {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  height: 400px;  
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  color: #fff;  
-  border-radius: 10px;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
+.product-image {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);  
-  z-index: 1;
-  border-radius: 10px;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid #f0f0f0;
 }
 
-.available {
+.product-status {
+  padding: 5px;
   position: absolute;
   top: 10px;
-  left: 10px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: "Inter", sans-serif;
-  z-index: 2; 
+  right: 10px;
+  border-radius: 3px;
+  font-size: 0.9em;
 }
 
-.card-content {
-  position: relative;
-  margin-top: 40%;
-  z-index: 2;  
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
+.product-content {
   padding: 20px;
-  background: rgba(0, 0, 0, 0.4); 
-  border-radius: 10px;
-  transform: rotateX(50%);
 }
 
-.title {
-  font-size: 24px;
-  font-weight: bold;
+.product-title {
+  font-size: 1.5em;
   margin-bottom: 10px;
 }
 
-.price {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.product-price {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 15px;
 }
 
-.description {
+.product-category {
+  font-size: 1em;
+  color: #888;
   margin-bottom: 20px;
 }
 
-.details .btn {
-  font-size: 1.2rem;
-  padding: 12px 25px;
+.btn {
   width: 100%;
-  max-width: 400px;
+  padding: 10px 0;
+  font-size: 1.2em;
   border-radius: 5px;
-  background-color: #ffffff;
-  color: #333;
+  background-color: #0056b3;
+  color: white;
   border: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.details .btn:hover {
-  background-color: #52c41a;  
-  color: #fff;
+.btn:hover {
+  background-color: #003d82;
 }

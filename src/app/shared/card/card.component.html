@@ -1,16 +1,16 @@
-<div style="text-decoration:none;">
-  <nz-card class="ant-card" style="margin-left: 20px; margin-top: 20px; position: relative;" [nzLoading]="loading">
-    <div class="card-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
-      <div class="overlay"></div>
-      <div class="available" [ngStyle]="{'background-color': status === 'IN STOCK' ? '#52c41a' : '#2B4FEB', color: '#fff'}">
-        {{ status }}
-      </div>
-      <div class="card-content">
-        <div class="title">{{ title }}</div>
-        <div class="price">{{ price }}</div>
-        <div class="description">Category: {{ productType }}</div>
-        <button (click)="onAddToCart()" type="button" class="btn btn-secondary btn-lg btn-block">Add to Cart</button>
-      </div>
+<div class="product-card">
+  <nz-card class="ant-card" [nzLoading]="loading" style="position: relative; margin: 20px;">
+    <img [src]="imageUrl" alt="{{ title }}" class="product-image"/>
+    <div class="product-status" [ngStyle]="{'background-color': status === 'IN STOCK' ? '#52c41a' : '#2B4FEB', color: '#fff'}">
+      {{ status }}
+    </div>
+    <div class="product-content">
+      <div class="product-title">{{ title }}</div>
+      <div class="product-price">{{ price }}</div>
+      <div class="product-category">Category: {{ productType }}</div>
+      <button (click)="onAddToCart()" type="button" class="btn btn-secondary btn-lg btn-block">
+        Add to Cart
+      </button>
     </div>
   </nz-card>
 </div>

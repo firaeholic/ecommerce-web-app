@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { cartProduct } from '../../shared/models/product';
 
 interface ProductParams {
   id: number;
@@ -12,7 +13,7 @@ interface ProductParams {
 }
 
 interface CartData {
-  products: ProductParams[];
+  products: cartProduct[];
   total: number;
 }
 
@@ -38,44 +39,60 @@ export class CartService {
     this.cartDataObs$.next(this.cartData);
   }
 
-  addProduct(params: ProductParams): void {
-    const { id, price, quantity, image, title, maxQuantity } = params;
-    const product = { id, price, quantity, image, title, maxQuantity };
+  addProduct(params: cartProduct): void {
+    const {
+      id,
+      name,
+      imagesPath,
+      category,
+      price,
+      maxAmount,
+      amountLeft,
+      originalAmount,
+      unit,
+      productRequestID,
+      productRequest,
+      created,
+      lastModified,
+      quantity
+    } = params;
+
+    const product = {
+      id,
+      name,
+      imagesPath,
+      category,
+      price,
+      maxAmount,
+      amountLeft,
+      originalAmount,
+      unit,
+      productRequestID,
+      productRequest,
+      created,
+      lastModified,
+      quantity
+    };
 
     if (!this.isProductInCart(id)) {
-      if (quantity) this.cartData.products.push(product);
-      else this.cartData.products.push({ ...product, quantity: 1 });
+      this.cartData.products.push(product);
+      this.updateCartData();
+      this._notification.success('Product added', `${name} has been added to your cart.`);
     } else {
-      // copy array, find item index and update
-      let updatedProducts = [...this.cartData.products];
-      let productIndex = updatedProducts.findIndex((prod) => prod.id == id);
-      let product = updatedProducts[productIndex];
-
-      // if no quantity, increment
-      if (quantity) {
-        updatedProducts[productIndex] = {
-          ...product,
-          quantity: quantity,
-        };
-      } else {
-        updatedProducts[productIndex] = {
-          ...product,
-          quantity: product.quantity + 1,
-        };
-      }
-
-      console.log(updatedProducts);
-      this.cartData.products = updatedProducts;
+      this._notification.warning('Product already in cart', `${name} is already in your cart.`);
     }
+  }
 
-    this.cartData.total = this.getCartTotal();
-    this._notification.create(
-      'success',
-      'Product added to cart',
-      `${title} was successfully added to the cart`
-    );
-    this.cartDataObs$.next({ ...this.cartData });
-    localStorage.setItem('cart', JSON.stringify(this.cartData));
+  private isProductInCart(productId: number): boolean {
+    return this.cartData.products.some(product => product.id === productId);
+  }
+
+  private updateCartData(): void {
+    this.cartData.total = this.cartData.products.reduce((total, product) => total + product.price * product.amountLeft, 0);
+    this.cartDataObs$.next(this.cartData);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('cart', JSON.stringify(this.cartData));
+    }
   }
 
   removeProduct(id: number): void {
@@ -129,9 +146,7 @@ export class CartService {
     return totalSum;
   }
 
-  isProductInCart(id: number): boolean {
-    return this.cartData.products.findIndex((prod) => prod.id === id) !== -1;
-  }
+
 
 
 }

@@ -76,14 +76,6 @@ export class UserComponent implements OnInit {
     
   
 
-  async logout() {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem('currentUser');
-      localStorage.removeItem('access_token');
-    }
-    await this.openConfirmDialog('Logout Successful', 'Logging you out...');
-    window.location.href = '/home';
-  }
 
   openConfirmDialog(title: string, message: string): Promise<void> {
     return new Promise<void>((resolve) => {

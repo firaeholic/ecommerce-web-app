@@ -16,7 +16,9 @@ export class CartComponent  {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   updateCart(id: number, quantity: number): void {
     console.log({ id, quantity });
@@ -26,4 +28,6 @@ export class CartComponent  {
   removeCartItem(id: number): void {
     this._cart.removeProduct(id);
   }
+
+  
 }

@@ -1,7 +1,7 @@
 export class Product {
     product!: {
       name: string;
-      imagesPath: string;
+      imagesPath: string[];
       category: ProductCategory | null;
       price: number;
       maxAmount: number;
@@ -16,7 +16,7 @@ export class Product {
     }
 
     name!: string;
-    imagesPath!: string;
+    imagesPath!: string[];
     category!: ProductCategory | null;
     price!: number;
     maxAmount!: number;
@@ -30,6 +30,33 @@ export class Product {
     lastModified!: string; 
 }
 
+export interface cartProduct {
+  id: number;
+  name: string;
+  imagesPath: string[];
+  category: ProductCategory | null;
+  price: number;
+  maxAmount: number;
+  amountLeft: number;
+  originalAmount: number;
+  unit: MeasurementUnit | null;
+  productRequestID: number | null;
+  productRequest: ProductRequest | null;
+  created: string;
+  lastModified: string;
+  quantity: number;
+}
+
+export class AddProduct{
+  name!: string;
+  images!: File[];
+  category!: string;
+  price!: number;
+  amountLeft!: number;
+  description!: string;
+  originalAmount!: number;
+}
+
 export class Products {
   products!: Product[];
 }
@@ -40,9 +67,9 @@ export enum MeasurementUnit {
 
 export enum ProductCategory {
   Cereals = 'Cereals',
-  DairyProducts = 'DairyProducts',
+  DairyProducts = 'Dairy Products',
   Fruits = 'Fruits',
-  OtherProducts = 'OtherProducts',
+  OtherProducts = 'Other Products',
   Vegetables = 'Vegetables',
 }
 

@@ -1,25 +1,37 @@
 <div class="container">
     <h1 class="title">Add a Product</h1>
-    <form>
+    <form (ngSubmit)="addProduct()">
         <div class="propdet">
             <div class="head">
                 <p>Product Details </p>
             </div>
             <div class="filter">
                 <label for="propname">Name:</label>
-                <input [(ngModel)]="product.product.name" type="text" id="name" name="name" #name placeholder="Name">
+                <input [(ngModel)]="product.name" type="text" id="name" name="name" #name placeholder="Name">
             </div>
             <div class="filter">
-                <label for="description">Category:</label>
-                <textarea [(ngModel)]="product.product.category" id="description" name="description" #description placeholder="Description"></textarea>
+                <label for="description">Description:</label>
+                <textarea [(ngModel)]="product.description" id="description" name="description" #description placeholder="Description"></textarea>
+            </div>
+            <div class="filter">
+                <label for="category">Category:</label>
+                <select [(ngModel)]="product.category" id="category" name="category" class="custom-select">
+                    <option value="Cereals">Cereals</option>
+                    <option value="DairyProducts">Dairy Products</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Fruits">Fruits</option>
+                    <option value="OtherProducts">Other Products</option>
+
+
+                </select>
             </div>
             <div class="filter">
                 <label for="bedroom">Quantity</label>
-                <input [(ngModel)]="product.product.maxAmount" type="number" id="quantity" name="quantity" #quantity placeholder="Total Quantity">
+                <input [(ngModel)]="product.amountLeft" type="number" id="quantity" name="quantity" #quantity placeholder="Total Quantity">
             </div>
             <div class="filter">
-                <label>Price</label>
-                <input [(ngModel)]="product.product.price" #price type="text" name="price" placeholder="Price">
+                <label>Price per item</label>
+                <input [(ngModel)]="product.price" #price type="text" name="price" placeholder="Price">
             </div>
             <div class="filter">
                 <label for="images">Images:</label>
@@ -29,7 +41,7 @@
         <div class="buttons">
             <button (click)="clearFields(images, quantity, description, name, price)" 
                 class="clear-button">Clear all</button>
-            <button class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>

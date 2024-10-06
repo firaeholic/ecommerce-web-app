@@ -59,3 +59,14 @@ export class CurrentUserModel{
     created!: string;
     lastModified!: string;
 }
+
+export class UpdateUserModel {
+    id!: number;
+    name?: string;
+    userName?: string;
+    email?: string;
+    password?: string;
+    role?: string; 
+    phoneNumber?: string;
+    businessLicenseFile?: File;
+  }
