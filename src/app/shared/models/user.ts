@@ -31,7 +31,9 @@ export default class UserModel{
     }
 }
 
-
+export class Users{
+    users!: UserModel[];
+}
   
 
 export class RegisterUserModel{
@@ -62,11 +64,19 @@ export class CurrentUserModel{
 
 export class UpdateUserModel {
     id!: number;
-    name?: string;
-    userName?: string;
-    email?: string;
-    password?: string;
-    role?: string; 
-    phoneNumber?: string;
-    businessLicenseFile?: File;
+    name?: string | null;
+    userName?: string  | null;
+    email?: string  | null;
+    password?: string  | null;
+    role?: string  | null; 
+    phoneNumber?: string  | null;
+    businessLicenseFile?: File  | null;
+  }
+
+export class VerifyUserModel {
+    id!: number;
+    role!: string;
+    isVerified!: boolean;
+    isLicenseApproved!: boolean;
+    phoneNumberVerified!: boolean;
   }

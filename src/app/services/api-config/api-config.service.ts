@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import UserModel, { RegisterUserModel, UpdateUserModel } from '../../shared/models/user';
+import UserModel, { RegisterUserModel, UpdateUserModel, Users, VerifyUserModel } from '../../shared/models/user';
 import loginData from '../../shared/models/login-data';
-import { AddProduct, Product, Products } from '../../shared/models/product';
+import { AddProduct, Product, Products, UpdateProductModel } from '../../shared/models/product';
 import { Observable } from 'rxjs';
-import { CreateOrder, Order, Orders } from '../../shared/models/order';
+import { CreateOrder, Order, Orders, UpdateOrder } from '../../shared/models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +25,17 @@ export class ApiConfigService {
   logUserConfig(url: string, data: object){
     return this.httpClient.post<loginData>(`${this.TEMP_API_BASE_URL}/${url}`, data);
   }
-
   getUserByIdConfig(url: string, options: { headers: HttpHeaders }){
     return this.httpClient.get<UserModel>(`${this.TEMP_API_BASE_URL}/${url}`, options);
   }
-
-  getUsersConfig(url: string){
-    return this.httpClient.get<UserModel[]>(`${this.TEMP_API_BASE_URL}/${url}`);
+  getUsersConfig(url: string, options: { headers: HttpHeaders }){
+    return this.httpClient.get<Users>(`${this.TEMP_API_BASE_URL}/${url}`, options);
   }
   updateUserConfig(url: string, data: FormData){
     return this.httpClient.post<UpdateUserModel>(`${this.TEMP_API_BASE_URL}/${url}`, data);
+  }
+  verifyUserConfig(url: string, data: FormData){
+    return this.httpClient.post<VerifyUserModel>(`${this.TEMP_API_BASE_URL}/${url}`, data);
   }
 
   // Products config
@@ -50,6 +51,10 @@ export class ApiConfigService {
     return this.httpClient.post<AddProduct>(`${this.TEMP_API_BASE_URL}/${url}`, data);
   }
 
+  updateProductConfig(url: string, data: FormData){
+    return this.httpClient.put<UpdateProductModel>(`${this.TEMP_API_BASE_URL}/${url}`, data);
+  }
+
   // Orders config
   getSingleOrderConfig(url: string, options: { headers: HttpHeaders }): Observable<Order>{
     return this.httpClient.get<Order>(`${this.TEMP_API_BASE_URL}/${url}`, options);
@@ -58,9 +63,11 @@ export class ApiConfigService {
   getOrdersPaginationConfig(url: string, options: { headers: HttpHeaders }){
     return this.httpClient.get<Orders>(`${this.TEMP_API_BASE_URL}/${url}`, options);
   }
-
   createOrderConfig(url: string, data: object){
     return this.httpClient.post<CreateOrder>(`${this.TEMP_API_BASE_URL}/${url}`, data);
+  }
+  approveRejectOrderConfig(url: string, data: object, options: { headers: HttpHeaders }){
+    return this.httpClient.put<UpdateOrder>(`${this.TEMP_API_BASE_URL}/${url}`, data, options);
   }
 
 }

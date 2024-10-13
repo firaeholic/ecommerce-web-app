@@ -36,14 +36,17 @@ export class ProfileComponent implements OnInit {
       this.userId = Number(params.get('id'));
     });
 
-    const dateJoined = new Date(this.currentUser!.created);
-    const year = dateJoined.getFullYear();
-    const monthNumber = dateJoined.getMonth() + 1;
+    if(this.currentUser){
+      const dateJoined = new Date(this.currentUser.created);
+      const year = dateJoined.getFullYear();
+      const monthNumber = dateJoined.getMonth() + 1;
+  
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthName = months[monthNumber - 1];
+  
+      this.joined = `Joined on ${monthName} ${year}`;
+    }
 
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const monthName = months[monthNumber - 1];
-
-    this.joined = `Joined on ${monthName} ${year}`;
   }
 
   async logout() {

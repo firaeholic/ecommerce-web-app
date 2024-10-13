@@ -14,13 +14,13 @@ import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.
 export class UpdateProfileComponent implements OnInit{
   userModel: UpdateUserModel = {
     id: 0,
-    name: '',
-    userName: '',
-    email: '',
-    password: '',
-    role: '',
-    phoneNumber: '',
-    businessLicenseFile: undefined
+    name: null,
+    userName:null,
+    email: null,
+    password: null,
+    role: null,
+    phoneNumber: null,
+    businessLicenseFile: null
   };
 
   roles = ['Wholesaler', 'Retailer']; 
@@ -58,7 +58,7 @@ export class UpdateProfileComponent implements OnInit{
   }
 
   async updateProfile(): Promise<void> {
-    if (this.isFormValid()) {
+    // if (this.isFormValid()) {
       try {
         await this.authService.updateUser(this.userModel).toPromise();
         localStorage.removeItem('currentUser');
@@ -69,9 +69,9 @@ export class UpdateProfileComponent implements OnInit{
       } catch (error) {
         this.openErrorDialog('Error!', "An error has occurred");
       }
-    } else {
-      this.openErrorDialog('Error!', 'Please fill in all fields');
-    }
+    // } else {
+    //   this.openErrorDialog('Error!', 'Please fill in all fields');
+    // }
   }
 
   checkIfUserAdmin(): boolean {
@@ -82,17 +82,17 @@ export class UpdateProfileComponent implements OnInit{
   }
 }
 
-  isFormValid(): boolean {
-    return !!(
-      this.userModel.name &&
-      this.userModel.userName &&
-      this.userModel.email &&
-      this.userModel.password &&
-      this.userModel.role &&
-      this.userModel.phoneNumber &&
-      this.userModel.businessLicenseFile
-    );
-  }
+  // isFormValid(): boolean {
+  //   return !!(
+  //     this.userModel.name &&
+  //     this.userModel.userName &&
+  //     this.userModel.email &&
+  //     this.userModel.password &&
+  //     this.userModel.role &&
+  //     this.userModel.phoneNumber &&
+  //     this.userModel.businessLicenseFile
+  //   );
+  // }
 
 
   onFileChange(event: any): void {

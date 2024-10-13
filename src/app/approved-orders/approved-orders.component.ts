@@ -2,24 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order/order.service';
 import { ProductService } from '../services/product/product.service';
 import { Order, Orders, UpdateOrder } from '../shared/models/order';
-import { Product } from '../shared/models/product';
+import { Product, UpdateProductModel } from '../shared/models/product';
 import UserModel, { CurrentUserModel } from '../shared/models/user';
 import { AuthService } from '../services/auth/auth.service';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
 import { Router } from '@angular/router';
+import { response } from 'express';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
-  selector: 'app-purchase-requests',
-  templateUrl: './purchase-requests.component.html',
-  styleUrl: './purchase-requests.component.scss'
+  selector: 'app-approved-orders',
+  templateUrl: './approved-orders.component.html',
+  styleUrl: './approved-orders.component.scss'
 })
-export class PurchaseRequestsComponent implements OnInit {
-
+export class ApprovedOrdersComponent {
   orders: Order[] = [];
   user: UserModel | any;
   userHere: CurrentUserModel | null = null;
+
+  product: UpdateProductModel = {
+    id: 0,
+    amountLeft: null
+  };
 
   updateOrder: UpdateOrder = {
     id: 0,
@@ -30,15 +36,13 @@ export class PurchaseRequestsComponent implements OnInit {
     private productService: ProductService,
     private auth: AuthService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private notification: NzNotificationService
   ) { }
 
   ngOnInit(): void {
-
     if (typeof localStorage !== 'undefined') {
-
       this.userHere = JSON.parse(localStorage.getItem('currentUser') || '{}');
-
       if (this.userHere?.role !== "Admin") {
         window.location.href = '/home';
       } else {
@@ -65,6 +69,7 @@ export class PurchaseRequestsComponent implements OnInit {
     this.orders.forEach(order => {
       const productNames: string[] = [];
       const imagePaths: string[] = []; 
+
       order.orderItems.forEach(orderItem => {
         this.productService.getSingleProduct(orderItem.productID).subscribe((product: Product) => {
           productNames.push(product.product.name);
@@ -76,7 +81,6 @@ export class PurchaseRequestsComponent implements OnInit {
           if (imagePaths.length > 0) {
             const randomIndex = Math.floor(Math.random() * imagePaths.length);
             order['orderImagePath'] = imagePaths[randomIndex];
-            console.log(order['orderImagePath']);
           }
         });
       });
@@ -95,13 +99,30 @@ export class PurchaseRequestsComponent implements OnInit {
     this.router.navigate(['/user', userId]);
   }
 
-  approveOrder(order: Order): void {
-    this.updateOrder.orderStatus = 'Approved';
-    this.updateOrder.id = order.id;
-    console.log(this.updateOrder);
+  async delivered(order: Order): Promise<void> {
+    for (const orderItem of order.orderItems) {
+      try {
+        this.product.id = orderItem.productID;
+        const response = await this.productService.getSingleProduct(orderItem.productID).toPromise();
+
+        if (response && response.product) {
+          const { product } = response;
+          this.product.amountLeft = product.amountLeft - orderItem.quantity;
+          console.log(this.product);
+          await this.productService.updateProduct(this.product).toPromise();
+          await this.openConfirmDialog('Order delivery confirmed', 'Removing order from list...');
+        } else {
+          throw new Error('Product not found');
+        }
+      } catch (error) {
+          await this.openErrorDialog('Error', 'Cannot confirm delivery. Please try again later.');
+          break; 
+      }
+    }
   }
 
-  rejectOrder(order: Order): void {
+
+  canceled(order: Order): void {
     this.updateOrder.orderStatus = 'Rejected';
     this.updateOrder.id = order.id;
     console.log(this.updateOrder);
@@ -111,14 +132,24 @@ export class PurchaseRequestsComponent implements OnInit {
     return order.orderItems.map(item => `(${item.quantity} ${item.productName})`).join('');
   }
 
+
   openErrorDialog(title: string, message: string): void {
     this.dialog.open(ErrorDialogComponent, {
       data: { title, message },
-      width: '300px'
+      width: '400px'
     });
   }
 
-  goToApproved(){
-    this.router.navigate(['/approved']);
+  openConfirmDialog(title: string, message: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: { title, message },
+        width: '400px'
+      });
+  
+      dialogRef.afterClosed().subscribe(() => {
+        resolve();
+      });
+    });
   }
 }

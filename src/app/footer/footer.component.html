@@ -7,9 +7,9 @@
         <div class="sub">
           <div class='input-wrapper'>
             <nz-input-group>
-                <input nz-input placeholder="Enter your email" class='subscribe-input'>
+                <input nz-input [(ngModel)]="email" placeholder="Enter your email" class='subscribe-input'>
               </nz-input-group>
-            <button nz-button nzType="primary" class='subscribe-button' nzSize="large">Subscribe</button>
+            <button (click)="subscribe()" nz-button nzType="primary" class='subscribe-button' nzSize="large">Subscribe</button>
           </div>
         </div>
         <div class='message'>
@@ -20,7 +20,7 @@
     <div class="footer-columns">
       <div class="footer-large-description">
         <p class="logo">PPP</p>
-        <p style="color: #888; font-size: 14px;">Free for all. Buy and Sell</p>
+        <p style="color: #ffffff; font-size: 14px;">Free for all. Buy and Sell</p>
         <div class="social-media-icons">
           <fa-icon [icon]="faTelegram" class="social-icon"></fa-icon>
           <fa-icon [icon]="faInstagram" class="social-icon"></fa-icon>

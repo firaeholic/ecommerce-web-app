@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
-import UserModel, { CurrentUserModel} from '../shared/models/user';
+import UserModel, { CurrentUserModel, VerifyUserModel} from '../shared/models/user';
 import { AuthService } from '../services/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
@@ -13,12 +13,25 @@ import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.compon
 })
 export class UserComponent implements OnInit {
 
+  userModel: VerifyUserModel = {
+    id: 0,
+    role: '',
+    phoneNumberVerified: false,
+    isLicenseApproved: false,
+    isVerified: false,
+  };
+
   currentUser: UserModel | null = null;
 
   userHere: CurrentUserModel | null = null;
 
-
   joined: string = '';
+
+  baseUrl = 'http://localhost:5157/';
+
+  licenseUrl = ''
+
+  businessUrl = '';
 
 
   constructor(
@@ -65,16 +78,86 @@ export class UserComponent implements OnInit {
         } 
       }
       }
-
-      
-
-  
   }
 
+  checkLicense(): void {
 
-      
-    
-  
+    if(this.currentUser){
+      this.businessUrl = this.currentUser.businessLicenseFilePath;
+      if(this.businessUrl === null || this.businessUrl === ''){
+        this.openErrorDialog('Error!', 'No license uploaded for this user');
+        return;
+      }
+      this.licenseUrl = this.baseUrl + this.businessUrl;
+      console.log(this.licenseUrl);
+      window.open(this.licenseUrl, '_blank');
+    }
+  }
+
+  async verifyUser(): Promise<void> {
+    if(this.currentUser){
+      this.userModel.id = this.currentUser.id;
+      this.userModel.role = this.currentUser.role;
+      this.userModel.phoneNumberVerified = this.currentUser.phoneNumberVerified;
+      this.userModel.isVerified = this.currentUser.isVerified;
+      this.userModel.isLicenseApproved = true;
+      console.log(this.userModel);
+      this.authService.verifyUser(this.userModel).subscribe({
+        next: async response => {
+          await this.openConfirmDialog('Success!', 'User verified successfully');
+          window.location.reload();
+        },
+        error: error => {
+          console.log(error);
+          this.openErrorDialog('Error!', 'An error occurred while verifying user');
+        }
+  })
+}}
+
+async unverifyUser(): Promise<void> {
+  if(this.currentUser){
+    this.userModel.id = this.currentUser.id;
+    this.userModel.role = this.currentUser.role;
+    this.userModel.phoneNumberVerified = this.currentUser.phoneNumberVerified;
+    this.userModel.isVerified = this.currentUser.isVerified;
+    this.userModel.isLicenseApproved = false;
+    console.log(this.userModel);
+    this.authService.verifyUser(this.userModel).subscribe({
+      next: async response => {
+        await this.openConfirmDialog('Success!', 'User unverified successfully');
+        window.location.reload();
+      },
+      error: error => {
+        console.log(error);
+        this.openErrorDialog('Error!', 'An error occurred while unverifying user');
+      }
+})
+}}
+
+async adminize(): Promise<void> {
+  const confirmPromotion = confirm(
+    'Are you sure you want to promote this user to admin? This action cannot be reverted from the website.'
+  )
+  if(confirmPromotion){
+    if(this.currentUser){
+      this.userModel.id = this.currentUser.id;
+      this.userModel.role = 'Admin';
+      this.userModel.phoneNumberVerified = this.currentUser.phoneNumberVerified;
+      this.userModel.isVerified = this.currentUser.isVerified;
+      this.userModel.isLicenseApproved = this.currentUser.isLicenseApproved;
+      console.log(this.userModel);
+      this.authService.verifyUser(this.userModel).subscribe({
+        next: async response => {
+          await this.openConfirmDialog('Success!', 'User promoted successfully');
+          window.location.reload();
+        },
+        error: error => {
+          console.log(error);
+          this.openErrorDialog('Error!', 'An error occurred while promoting user');
+        }
+  })
+  }}
+  }
 
 
   openConfirmDialog(title: string, message: string): Promise<void> {

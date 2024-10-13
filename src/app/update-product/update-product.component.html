@@ -1,6 +1,7 @@
 <div class="container">
-    <h1 class="title">Add a Product</h1>
-    <form (ngSubmit)="addProduct()">
+    <h1 class="title">Update Product</h1>
+    <p style="text-align: center;">Only change the fields you want to modify</p>
+    <form (ngSubmit)="updateProduct()">
         <div class="propdet">
             <div class="head">
                 <p>Product Details </p>
@@ -21,13 +22,15 @@
                     <option value="Vegetables">Vegetables</option>
                     <option value="Fruits">Fruits</option>
                     <option value="OtherProducts">Other Products</option>
-
-
                 </select>
             </div>
             <div class="filter">
-                <label for="quantity">Total Amount</label>
-                <input [(ngModel)]="product.amountLeft" type="number" id="quantity" name="quantity" #quantity placeholder="Total Quantity">
+                <label for="quantity">Original Amount</label>
+                <input [(ngModel)]="product.originalAmount" type="number" id="quantity" name="quantity" #quantity placeholder="Total Quantity">
+            </div>
+            <div class="filter">
+                <label for="quantityLeft">Amount Left</label>
+                <input [(ngModel)]="product.amountLeft" type="number" id="quantityLeft" name="quantityLeft" #quantityLeft placeholder="Quantity amountLeft">
             </div>
             <div class="filter">
                 <label>Price per item</label>
@@ -37,6 +40,7 @@
                 <label for="images">Images:</label>
                 <input required type="file" (change)="onFileChange($event)"  id="images" name="images" #images accept="image/*" multiple>
             </div>
+            <p style="margin-top: -20px; color: red;">Adding images will overwrite the existing images</p>
             <div class="filter">
                 <label for="producerName">Producer name:</label>
                 <input type="text" id="producerName" name="producerName" #producerName placeholder="Producer Name">
@@ -47,8 +51,6 @@
             </div>
         </div>
         <div class="buttons">
-            <button (click)="clearFields(images, quantity, description, name, price)" 
-                class="clear-button">Clear all</button>
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>

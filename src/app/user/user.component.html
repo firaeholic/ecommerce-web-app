@@ -10,6 +10,7 @@
                   <h4>{{currentUser.userName}}</h4>
                   <p class="text-secondary mb-1">{{currentUser.role}}</p>
                   <p class="text-muted font-size-sm">{{this.joined}}</p>
+                  <button *ngIf="currentUser.role !== 'Admin'" (click)="adminize()" class="btn btn-info">Promote to Admin</button>
                 </div>
               </div>
             </div>
@@ -25,9 +26,9 @@
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <h6 class="mb-0">Phone</h6>
-                <span class="text-secondary"><img src="../../assets/{{ currentUser.phoneNumberVerified ? 'verified' : 'unverified' }}.png" width="20px" height="20px"></span>
+                <span class="text-secondary"><img src="../../assets/{{ currentUser.phoneNumber ? 'verified' : 'unverified' }}.png" width="20px" height="20px"></span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <li *ngIf="currentUser.role !== 'Admin'" class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <h6 class="mb-0">License</h6>
                 <span class="text-secondary"><img src="../../assets/{{ currentUser.isLicenseApproved ? 'verified' : 'unverified' }}.png" width="20px" height="20px"></span>
               </li>
@@ -48,7 +49,7 @@
                   <h6 class="mb-0">Name</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                    {{(currentUser.name) ? currentUser.name : 'Not Available (Edit to add)'}}
+                    {{(currentUser.name) ? currentUser.name : 'Not Available'}}
                 </div>
               </div>
               <hr>
@@ -66,7 +67,7 @@
                   <h6 class="mb-0">Phone</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{(currentUser.phoneNumber) ? currentUser.phoneNumber : 'Not Available (Edit to add)'}}
+                  {{(currentUser.phoneNumber) ? currentUser.phoneNumber : 'Not Available'}}
                 </div>
               </div>
               <hr>
@@ -80,9 +81,11 @@
               </div>
               <hr>
               <div class="row">
-                <div class="col-sm-12 d-flex justify-content-between">
-                  <button class="btn btn-info">Edit</button>
+                <div class="col-sm-12 d-flex">
+                  <button *ngIf="currentUser.isLicenseApproved == false && currentUser.role !== 'Admin'" (click)="verifyUser()" class="btn btn-info">Verify user</button>
+                  <button *ngIf="currentUser.isLicenseApproved == true && currentUser.role !== 'Admin'" (click)="unverifyUser()" class="btn btn-info">Un-verify user</button>
                 </div>
+                <a *ngIf="currentUser.role !== 'Admin'" style="margin-top: 10px; color: rgb(28, 203, 226)" (click)="checkLicense()" >See business license</a>
               </div>
             </div>
           </div>

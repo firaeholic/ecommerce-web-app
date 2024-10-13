@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiConfigService } from '../api-config/api-config.service';
 import { Observable } from 'rxjs';
-import { CreateOrder, Order, Orders } from '../../shared/models/order';
+import { CreateOrder, Order, Orders, UpdateOrder } from '../../shared/models/order';
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -42,5 +42,17 @@ export class OrderService {
     const url = `api/orderservice/order`;
 
     return this.apiConfigService.createOrderConfig(url, data);
+  }
+
+  approveRejectOrder(data: object): Observable<UpdateOrder> {
+    const url = `api/orderservice/order`;
+    let token = '';
+    if (typeof localStorage !== 'undefined') {
+      token = localStorage.getItem('access_token') || '';
+    }
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+
+    return this.apiConfigService.approveRejectOrderConfig(url, data, { headers });
   }
 }

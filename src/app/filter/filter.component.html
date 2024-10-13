@@ -1,50 +1,84 @@
 <div class="filter-grid">
-    <nz-select nzMode="multiple" nzPlaceHolder="Category" nzSuffixIcon="down" style="width: 100%;">
-      <nz-option *ngFor="let option of ['Checkbox 1', 'Checkbox 2', 'Checkbox 3']" [nzLabel]="option" [nzValue]="option">
-        <label nz-checkbox>{{option}}</label>
+  <div class="form-group">
+    <label for="category-select">Category</label>
+    <nz-select
+      id="category-select"
+      nzPlaceHolder="Category"
+      nzSuffixIcon="down"
+      style="width: 100%;"
+      [(ngModel)]="selectedCategory"
+    >
+      <nz-option *ngFor="let option of categoryOptions" [nzLabel]="option.label" [nzValue]="option.value">
+        <label nz-checkbox>{{ option.label }}</label>
       </nz-option>
     </nz-select>
-  
+  </div>
+  <div class="form-group">
+    <label for="price-select">Minimum price</label>
+    <input nz-input type="number" id="price-select" [(ngModel)]="selectedPrice" placeholder="Minumum price" />
+  </div>
+
+  <div class="form-group">
+    <label for="pageInput">Products per Page</label>
+    <input nz-input type="number" id="pageInput" [(ngModel)]="productsPerPage" placeholder="Products per page" />
+  </div>
+
+  <div class="form-group">
+    <label for="order-by-select">Order By</label>
     <nz-select
-    [nzPlaceHolder]="dynamicPlaceholder"
-    [(ngModel)]="selectedValue"
-    [nzDropdownRender]="tplDropdown"
-    [(nzOpen)]="isDropdownOpen"
-    style="width: 100%;"
-  >
-    <ng-template #tplDropdown>
-      <div style="padding: 8px;">
-        <div>Min:</div>
-        <input type="number" nz-input placeholder="Min value" [(ngModel)]="minValue" class="price-input" />
+      id="order-by-select"
+      nzPlaceHolder="Order By"
+      nzSuffixIcon="down"
+      style="width: 100%;"
+      [(ngModel)]="selectedOrderBy"
+    >
+      <nz-option *ngFor="let option of orderByOptions" [nzLabel]="option.label" [nzValue]="option.value">
+        <label nz-checkbox>{{ option.label }}</label>
+      </nz-option>
+    </nz-select>
+  </div>
+
+
+  <div class="form-group">
+    <label for="sort-select">Sort by</label>
+      <nz-select
+      id="sort-select"
+      nzPlaceHolder="Sort by"
+      nzSuffixIcon="down"
+      style="width: 100%;"
+      [(ngModel)]="isAscending"
+    >
+      <nz-option *ngFor="let option of ascendingOptions" [nzLabel]="option.label" [nzValue]="option.value">
+        <label nz-checkbox>{{ option.label }}</label>
+      </nz-option>
+    </nz-select>
+  </div>
   
-        <div>Max:</div>
-        <input type="number" nz-input placeholder="Max value" [(ngModel)]="maxValue" class="price-input" />
+
+  <button (click)="loadFilteredProducts()" nz-button nzType="primary">Search</button>
   
-        <!-- Add a confirm button to apply the range selection -->
-        <button nz-button nzType="primary" (click)="applyPriceRange()">Apply</button>
-      </div>
-    </ng-template>
-  </nz-select>
+    
+  </div>
 
-    <nz-select nzMode="multiple" nzPlaceHolder="Dropdown 3" nzSuffixIcon="down" style="width: 100%;">
-        <nz-option *ngFor="let option of ['Checkbox 4', 'Checkbox 5', 'Checkbox 6']" [nzLabel]="option" [nzValue]="option">
-          <label nz-checkbox>{{option}}</label>
-        </nz-option>
-      </nz-select>
+  <div class="products">
 
-      <nz-select nzMode="multiple" nzPlaceHolder="Dropdown 4" nzSuffixIcon="down" style="width: 100%;">
-        <nz-option *ngFor="let option of ['Checkbox 4', 'Checkbox 5', 'Checkbox 6']" [nzLabel]="option" [nzValue]="option">
-          <label nz-checkbox>{{option}}</label>
-        </nz-option>
-      </nz-select>
-
-      <nz-select nzMode="multiple" nzPlaceHolder="Dropdown 5" nzSuffixIcon="down" style="width: 100%;">
-        <nz-option *ngFor="let option of ['Checkbox 4', 'Checkbox 5', 'Checkbox 6']" [nzLabel]="option" [nzValue]="option">
-          <label nz-checkbox>{{option}}</label>
-        </nz-option>
-      </nz-select>
-
-      <button nz-button nzType="primary">Search</button>
-  
-    <!-- Add more dropdowns as needed -->
+    <div class="card-list">
+      <app-card *ngFor="let product of AllProduct" 
+                [product]="product" 
+                [id]="product.id" 
+                [imageUrl]="product.imagesPath[0]" 
+                [price]="product.price + ' Birr /item'" 
+                [title]="product.name"
+                [productType]="product.category" 
+                [status]="product.amountLeft > 0 ? 'In Stock' : 'Out of Stock'" 
+                [imageWidth]="300" 
+                [imageHeight]="200" 
+                
+                >
+      </app-card>
+    </div>
+    <div class="more-container">
+      <a *ngIf="AllProduct.length > 0" (click)="showMoreProducts()" class="more">Show More</a>
+      <div *ngIf="AllProduct.length == 0" class="empty">No products available</div>
+    </div>
   </div>

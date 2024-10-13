@@ -16,6 +16,7 @@ export class RegisterComponent {
   role: string = '';
   email: string = '';
   password: string = '';
+  name: string = '';
   business_license_file: File | null = null;
 
   passwordVisible = false;
@@ -34,7 +35,7 @@ export class RegisterComponent {
     if (this.user_name && this.role && this.email && this.password) {
 
       if (this.business_license_file) {
-        this.auth.registerUser(this.user_name, this.role, this.email, this.password, this.business_license_file).subscribe({
+        this.auth.registerUser(this.name, this.user_name, this.role, this.email, this.password, this.business_license_file).subscribe({
           next: async () => {
             await this.openConfirmDialog('Registration Successful', 'User registered successfully! Redirecting to login page...');
             this.router.navigate(['/login']);
@@ -43,7 +44,7 @@ export class RegisterComponent {
           error: (error) => {
             const errorMessage = this.extractErrorMessage(error.error.title);
             this.openErrorDialog("Error!", errorMessage);
-
+            console.log(error)
           }
         });
       } else {

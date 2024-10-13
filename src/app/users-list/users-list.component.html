@@ -1,0 +1,13 @@
+<div class="all-users-container" >
+    <h2 class="title">All Users</h2>
+  <div class="user-container" *ngFor="let user of users">
+    <div class="all-users-card">
+      <div class="user-details">
+        <h3>{{user.name}}</h3>
+        <p>{{user.role}}</p>
+        <p><span> (</span> <a (click)="seeUserInfo(user.id)" class="__cf_email__" >See user info</a><span>)</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+  

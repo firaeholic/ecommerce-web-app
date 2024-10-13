@@ -1,14 +1,7 @@
 <div class="purchase-requests-container" *ngIf="userHere && userHere.role == 'Admin'">
-    <h2 class="title">Pending Orders</h2>
-
-    <div class="btn-cont">
-      <button class="btn-app" (click)='goToApproved()'>
-        <span>Click here to see approved orders</span>
-      </button>
-    </div>
-
+    <h2 class="title">Approved Orders</h2>
   <div class="product-container" *ngFor="let order of orders">
-    <div  class="purchase-request-card" *ngIf="order.orderStatus == 'Pending'">
+    <div  class="purchase-request-card" *ngIf="order.orderStatus == 'Approved'">
       <div class="product-image">
         <img src= {{order.orderImagePath}} alt="img here" />
       </div>
@@ -23,8 +16,8 @@
         <p><strong>Delivery Date:</strong> {{ order.deliveryDate }}</p>
       </div>
       <div class="action-buttons">
-        <button (click)="approveOrder(order)" class="done-button">Approve</button>
-        <button (click)="rejectOrder(order)" class="reject-button">Reject</button>
+        <button (click)="delivered(order)" class="done-button">Delivered</button>
+        <button (click)="canceled(order)" class="reject-button">Canceled</button>
       </div>
     </div>
   </div>

@@ -84,3 +84,17 @@ export class ProductRequest {
   maxAmount!: number;
   unit!: MeasurementUnit;
 }
+
+export class UpdateProductModel {
+  id!: number;
+  producerName?: string | null;
+  producerPhone?: string | null;
+  images?: File[] | null;
+  name?: string | null;
+  description?: string | null;
+  category?: ProductCategory | null;
+  price?: number | null;
+  originalAmount?: number | null;
+  amountLeft?: number | null;
+
+}

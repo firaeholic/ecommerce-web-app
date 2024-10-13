@@ -14,6 +14,9 @@ import { LandingComponent } from './landing/landing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserComponent } from './user/user.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { ApprovedOrdersComponent } from './approved-orders/approved-orders.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent},
@@ -29,7 +32,10 @@ const routes: Routes = [
   {path: 'checkout', component: CheckoutComponent},
   {path: 'profile/:id', component: ProfileComponent},
   {path: 'user/:id', component: UserComponent},
-  {path: 'edit-profile/:id', component: UpdateProfileComponent}
+  {path: 'edit-profile/:id', component: UpdateProfileComponent},
+  {path: 'update-product/:id', component: UpdateProductComponent},
+  {path: 'users', component: UsersListComponent},
+  {path: 'approved', component: ApprovedOrdersComponent}
 
 
 ];

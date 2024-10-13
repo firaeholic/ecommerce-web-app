@@ -2,15 +2,12 @@ import {
   Component,
   OnInit,
   ViewEncapsulation,
-  HostListener,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth/auth.service';
-import { response } from 'express';
 import { ProductService } from '../services/product/product.service';
 import { Product, Products } from '../shared/models/product';
 import { Order, Orders } from '../shared/models/order';
-import { OrderService } from '../services/order/order.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +16,8 @@ import { OrderService } from '../services/order/order.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent implements OnInit {
-  // products: Product[] = [];
+
+  initialPageSize = 6;
   categories: any[] = [
     {
       name: 'Laptops',
@@ -37,38 +35,7 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  // products = [
-  //   {
-  //     id: 1,
-  //     imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
-  //     pricePerItem: 50,
-  //     name: 'Sun Chips',
-  //     productType: 'Food',
-  //     status: 'IN STOCK'
-  //   },
-  //   {
-  //     id: 2,
-  //     imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
-  //     pricePerItem: 2500,
-  //     name: 'Internet Cable',
-  //     productType: 'PC Equipment',
-  //     status: 'IN STOCK'
-  //   },
-  //   {
-  //     id: 3,
-  //     imageUrls: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg',
-  //     pricePerItem: 200,
-  //     name: 'Apples',
-  //     productType: 'Food',
-  //     status: 'IN STOCK'
-  //   }
-  // ];
-
   product: Product | any;
-
-
-
-
 
   AllProduct: Product[] = [];
 
@@ -79,19 +46,31 @@ export class HomeComponent implements OnInit {
   productPageCounter = 1;
   additionalLoading = false;
 
-  activeButtonIndex: number = -1;
+  isLoggedIn: boolean = false;
+
+  counter: number = 0;
+
+  activeButtonIndex: number = 0;
 
   userId: number = 0;
 
   constructor(
     private router: Router,
-    private auth: AuthService,
     private productService: ProductService,
-    private orderService: OrderService
+    private notification: NzNotificationService
   ) {}
 
   addToCart(product: any): void {
-    this.router.navigate(['/product', product.id]);
+    if(this.isLoggedIn){
+      this.router.navigate(['/product', product.id]);
+    }else{
+      this.notification.warning('User not logged in', `Login to add product to cart`);
+
+    }
+  }
+
+  updateProduct(product: any): void {
+    this.router.navigate(['/update-product', product.id]);
   }
 
   ngOnInit(): void {
@@ -103,17 +82,14 @@ export class HomeComponent implements OnInit {
         this.userId = user.id;
       }
     }
+    this.isLoggedIn = this.checkIfLoggedIn();
+
 
     this.loadProducts();
 
-
-    // this.getUserById();
-
-    // this.getUsers();
-
   }
   loadProducts(): void {
-    this.productService.getProductsPagination().subscribe({
+    this.productService.getProductsPagination(this.initialPageSize).subscribe({
       next: (response: Products) => {
         const { products } = response;
         this.AllProduct = products.map(product => {
@@ -132,24 +108,48 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  loadSpecificProducts(category: string): void {
+    this.productService.getSpecificProductsPagination(this.initialPageSize, category).subscribe({
+      next: (response: Products) => {
+        const { products } = response;
+        this.AllProduct = products.map(product => {
+          product.imagesPath = product.imagesPath.map((path: string) => 
+            path.replace(/\\/g, '/').replace(/ /g, '%20')
 
-  // getUserById(): void {
-  //   this.auth.getUserById(this.userId).subscribe({
-  //     next: response => {
-  //       const { user } = response;
-  //       console.log(user);
-  //     }
-  //   }
-  //   )
-  // }
+          );
+          console.log(product.imagesPath)
+          return product;
+        });
+        console.log(this.AllProduct);
+      },
+      error: error => {
+        console.error('Error:', error);
+      }
+    });
+  }
 
-  // getUsers(): void {
-  //   this.auth.getUsers(0).subscribe({
-  //     next: response => {
-  //       console.log(response);
-  //     }
-  //   })
-  // }
+  showMoreProducts(): void{
+    this.initialPageSize += 6;
+    this.counter += 1;
+    console.log(this.counter);
+    if (this.activeButtonIndex === 0) {
+      this.loadProducts();
+    } else {
+      const categories = ['Fruits', 'Vegetables', 'DairyProducts', 'OtherProducts'];
+      this.loadSpecificProducts(categories[this.activeButtonIndex - 1]);
+    }
+  }
+
+  showLessProducts(): void{
+    this.initialPageSize -= 6;
+    this.counter -= 1;
+    if (this.activeButtonIndex === 0) {
+      this.loadProducts();
+    } else {
+      const categories = ['Fruits', 'Vegetables', 'DairyProducts', 'OtherProducts'];
+      this.loadSpecificProducts(categories[this.activeButtonIndex - 1]);
+    }
+  }
 
   isActive(index: number): boolean {
     return this.activeButtonIndex === index;
@@ -157,6 +157,16 @@ export class HomeComponent implements OnInit {
 
   setActiveButton(index: number): void {
     this.activeButtonIndex = index;
+    if (index === 0) {
+      this.loadProducts();
+    } else {
+      const categories = ['Fruits', 'Vegetables', 'DairyProducts', 'OtherProducts'];
+      this.loadSpecificProducts(categories[index - 1]);
+    }
+  }
+
+  checkIfLoggedIn(): boolean {
+    return typeof localStorage !== 'undefined' && localStorage.getItem('currentUser') !== null;
   }
 
 

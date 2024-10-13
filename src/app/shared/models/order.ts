@@ -58,3 +58,8 @@ export class Order {
     deliveryAddress!: string;
     totalPrice!: number;
   }
+
+  export class UpdateOrder{
+    id!: number;
+    orderStatus!: string
+  }

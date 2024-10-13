@@ -8,8 +8,11 @@
       <div class="product-title">{{ title }}</div>
       <div class="product-price">{{ price }}</div>
       <div class="product-category">Category: {{ productType }}</div>
-      <button (click)="onAddToCart()" type="button" class="btn btn-secondary btn-lg btn-block">
+      <button *ngIf="!isUserAdmin" (click)="onAddToCart()" type="button" class="btn btn-secondary btn-lg btn-block">
         Add to Cart
+      </button>
+      <button *ngIf="isUserAdmin" (click)="onUpdateProduct()" type="button" class="btn btn-secondary btn-lg btn-block">
+        Update Product
       </button>
     </div>
   </nz-card>
