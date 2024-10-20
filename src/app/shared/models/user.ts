@@ -80,3 +80,8 @@ export class VerifyUserModel {
     isLicenseApproved!: boolean;
     phoneNumberVerified!: boolean;
   }
+
+export class VerifyEmail{
+    email!: string;
+    otp!: number;
+}

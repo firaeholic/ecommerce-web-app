@@ -85,10 +85,10 @@
             </app-card>
           </div>
           <!-- <div class="less-container">
-            <a *ngIf="AllProduct.length > 0 && counter > 0" (click)="showLessProducts()" class="more">Show Less</a>
+            <a *ngIf="AllProduct.length > 0 && (counter > 0 && second == first)" (click)="showLessProducts()" class="more">Show Less</a>
           </div> -->
           <div class="more-container">
-            <a *ngIf="AllProduct.length > 0" (click)="showMoreProducts()" class="more">Show More</a>
+            <a *ngIf="AllProduct.length > 0 && (counter == 0 || second > first)" (click)="showMoreProducts()" class="more">Show More</a>
             <div *ngIf="AllProduct.length == 0" class="empty">No products available</div>
           </div>
         </div>

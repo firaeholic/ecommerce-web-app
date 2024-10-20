@@ -17,6 +17,8 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ApprovedOrdersComponent } from './approved-orders/approved-orders.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { ResetComponent } from './reset/reset.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent},
@@ -35,7 +37,9 @@ const routes: Routes = [
   {path: 'edit-profile/:id', component: UpdateProfileComponent},
   {path: 'update-product/:id', component: UpdateProductComponent},
   {path: 'users', component: UsersListComponent},
-  {path: 'approved', component: ApprovedOrdersComponent}
+  {path: 'approved', component: ApprovedOrdersComponent},
+  {path: 'verify-email', component: VerifyEmailComponent},
+  {path: 'reset', component: ResetComponent}
 
 
 ];

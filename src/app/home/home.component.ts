@@ -54,24 +54,16 @@ export class HomeComponent implements OnInit {
 
   userId: number = 0;
 
+  first: number = 6;
+  second: number = 6;
+  diff: number = 0;
+
   constructor(
     private router: Router,
     private productService: ProductService,
     private notification: NzNotificationService
   ) {}
 
-  addToCart(product: any): void {
-    if(this.isLoggedIn){
-      this.router.navigate(['/product', product.id]);
-    }else{
-      this.notification.warning('User not logged in', `Login to add product to cart`);
-
-    }
-  }
-
-  updateProduct(product: any): void {
-    this.router.navigate(['/update-product', product.id]);
-  }
 
   ngOnInit(): void {
 
@@ -88,6 +80,20 @@ export class HomeComponent implements OnInit {
     this.loadProducts();
 
   }
+
+  addToCart(product: any): void {
+    if(this.isLoggedIn){
+      this.router.navigate(['/product', product.id]);
+    }else{
+      this.notification.warning('User not logged in', `Login to add product to cart`);
+
+    }
+  }
+
+  updateProduct(product: any): void {
+    this.router.navigate(['/update-product', product.id]);
+  }
+
   loadProducts(): void {
     this.productService.getProductsPagination(this.initialPageSize).subscribe({
       next: (response: Products) => {
@@ -97,10 +103,15 @@ export class HomeComponent implements OnInit {
             path.replace(/\\/g, '/').replace(/ /g, '%20')
 
           );
-          console.log(product.imagesPath)
+
           return product;
         });
         console.log(this.AllProduct);
+        this.first = this.second;
+        this.second = this.AllProduct.length;
+        this.diff = this.second - this.first;
+        console.log(this.first, this.second);
+
       },
       error: error => {
         console.error('Error:', error);

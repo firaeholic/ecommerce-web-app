@@ -58,6 +58,10 @@ export class ProfileComponent implements OnInit {
     window.location.href = '/home';
   }
 
+  verify() {
+    window.location.href = '/verify-email';
+  }
+
   openConfirmDialog(title: string, message: string): Promise<void> {
     return new Promise<void>((resolve) => {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {

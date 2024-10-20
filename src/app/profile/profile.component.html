@@ -10,6 +10,7 @@
                   <h4>{{currentUser.userName}}</h4>
                   <p class="text-secondary mb-1">{{currentUser.role}}</p>
                   <p class="text-muted font-size-sm">{{this.joined}}</p>
+                  <button *ngIf="!currentUser.isVerified" (click)="verify()" class="btn btn-info">Verify Email</button>
                 </div>
               </div>
             </div>

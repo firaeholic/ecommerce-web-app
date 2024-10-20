@@ -47,8 +47,8 @@
         <button
           nz-button
           nzType="primary"
-          routerLink="/checkout"
           [disabled]="cartData.products.length === 0"
+          (click)="checkout()"
         >
           Checkout
         </button>

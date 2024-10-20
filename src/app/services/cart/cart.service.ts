@@ -88,7 +88,7 @@ export class CartService {
   }
 
   private updateCartData(): void {
-    this.cartData.total = this.cartData.products.reduce((total, product) => total + product.price * product.amountLeft, 0);
+    this.cartData.total = this.cartData.products.reduce((total, product) => total + product.price * product.quantity, 0);
     this.cartDataObs$.next(this.cartData);
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('cart', JSON.stringify(this.cartData));

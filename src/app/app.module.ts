@@ -48,6 +48,8 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ApprovedOrdersComponent } from './approved-orders/approved-orders.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { ResetComponent } from './reset/reset.component';
 
 
 registerLocaleData(en);
@@ -75,7 +77,9 @@ registerLocaleData(en);
     UpdateProfileComponent,
     UpdateProductComponent,
     UsersListComponent,
-    ApprovedOrdersComponent
+    ApprovedOrdersComponent,
+    VerifyEmailComponent,
+    ResetComponent
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,7 @@ export class LoginComponent {
 
   userId: number = 0;
 
+  showForgotPassword: boolean = false;
 
   constructor (
     private router : Router,
@@ -38,10 +39,14 @@ export class LoginComponent {
           const { user, token } = result;
           localStorage.setItem('currentUser', JSON.stringify(user));
           localStorage.setItem('access_token', token);
-          await this.openConfirmDialog('Login Successful', 'Redirecting to home page...');
-          window.location.href = '/home';
 
-
+          if (user.isVerified) {
+            await this.openConfirmDialog('Login Successful', 'Redirecting to home page...');
+            window.location.href = '/home';
+          } else {
+            await this.openConfirmDialog('Login Successful but email not verified', 'Redirecting to verify page...');
+            window.location.href = '/verify-email';
+          }
         },
         error: error => {
           console.error('Error:', error);
@@ -55,6 +60,15 @@ export class LoginComponent {
     } else{
       this.openErrorDialog('Error!', 'Please fill in all fields');
     }
+  }
+
+  async requestPasswordReset(email: string){
+    await this.openConfirmDialog('Password reset email sent!', '');
+    window.location.href = '/reset';
+  }
+
+  toggleForgotPassword() {
+    this.showForgotPassword = !this.showForgotPassword;
   }
 
   extractErrorMessage(errorTitle: string): string {

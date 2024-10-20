@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row justify-content-center">
+    <div class="col-md-5">
+     <div class="card">
+        <div class="card-body py-md-4">
+        <h3 class="text-center">Email Verification</h3>
+        <p style="font-size: 16px; text-align: center;">Enter the OTP sent your Email</p>
+         <form _lpchecked="1">
+            <div class="form-group">
+               <input #verify type="text" class="form-control" id="verify_email" placeholder="OTP">
+            </div>
+            <div class="buttons">
+               <button (click)="verifyEmail(verify.value)" class="btn btn-primary" type="button">Verify OTP</button>
+               <a (click)="resent()" class="resend">Resend Verification</a>
+            </div>
+        </form>
+       </div>
+    </div>
+  </div>
+  </div>
+  </div>

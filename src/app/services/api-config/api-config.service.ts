@@ -37,6 +37,9 @@ export class ApiConfigService {
   verifyUserConfig(url: string, data: FormData){
     return this.httpClient.post<VerifyUserModel>(`${this.TEMP_API_BASE_URL}/${url}`, data);
   }
+  verifyEmailConfig(url: string, data: object){
+    return this.httpClient.post<VerifyUserModel>(`${this.TEMP_API_BASE_URL}/${url}`, data);
+  }
 
   // Products config
   getSingleProductConfig(url: string, options: { headers: HttpHeaders }): Observable<Product> {

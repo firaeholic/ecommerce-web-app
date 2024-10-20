@@ -87,4 +87,9 @@ export class AuthService {
     
     return this.apiConfigService.verifyUserConfig('api/userservice/user/update', formData);
   }
+
+  verifyEmail(email: string, otp: string): Observable<VerifyUserModel> {
+    const data = { 'email': email, 'otp': otp };
+    return this.apiConfigService.verifyEmailConfig('api/userservice/user/verify-email', data);
+  }
 }
