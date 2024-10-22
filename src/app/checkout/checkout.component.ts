@@ -69,11 +69,11 @@ export class CheckoutComponent implements OnInit {
     setTimeout(() => {
         this.loading = false;
         this.currentStep = 3;
-        this.orderId = Math.floor(Math.random() * 1000000);
         this.products = this.cartData.products;
         this.orderService.createOrder(this.orderModel).subscribe({
           next: response => {
-            console.log(response)
+            const { data } = response; 
+            this.orderId = data?.id;
             this.openConfirmDialog('Order successful', 'Order sent! Clearing cart...');
             this._cart.clearCart();
           },

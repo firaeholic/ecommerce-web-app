@@ -6,6 +6,7 @@
         <span>Click here to see approved orders</span>
       </button>
     </div>
+    <div style="text-align: center;" *ngIf="orderLength == 0" class="empty">No pending orders</div>
 
   <div class="product-container" *ngFor="let order of orders">
     <div  class="purchase-request-card" *ngIf="order.orderStatus == 'Pending'">

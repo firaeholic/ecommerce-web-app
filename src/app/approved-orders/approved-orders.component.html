@@ -1,5 +1,9 @@
 <div class="purchase-requests-container" *ngIf="userHere && userHere.role == 'Admin'">
     <h2 class="title">Approved Orders</h2>
+    <div *ngIf="length == 0" style="text-align: center;">
+      <!-- Display this content if no orders have the status "Approved" -->
+      No approved orders found.
+    </div>
   <div class="product-container" *ngFor="let order of orders">
     <div  class="purchase-request-card" *ngIf="order.orderStatus == 'Approved'">
       <div class="product-image">

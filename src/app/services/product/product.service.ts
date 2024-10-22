@@ -22,6 +22,9 @@ export class ProductService {
     formData.append('amountLeft', product.amountLeft.toString());
     formData.append('originalAmount', product.originalAmount.toString());
     formData.append('description', product.description);
+    formData.append('producerName', product.producerName);
+    formData.append('producerPhoneNumber', product.producerPhoneNumber);
+    formData.append('unit', product.unit);
 
     Object.keys(product).forEach(key => {
       if (key === 'images') {
@@ -73,8 +76,7 @@ export class ProductService {
     return this.apiConfigService.getProductsPaginationConfig(url, { headers });
   }
 
-  getFilteredProductsPagination(PageSize: number | null, Category: string, price: number | null, orderBy: string | null, isAscending: string | null): Observable<Products> {
-    const url = `${'api/productservice/product/paginated'}?PageSize=${PageSize}&Filters.category=${Category}&Price=${price}&OrderBy=${orderBy}&IsAscending=${isAscending}`;
+  getFilteredProductsPagination(url: string): Observable<Products> {
     let token = '';
     if (typeof localStorage !== 'undefined') {
       token = localStorage.getItem('access_token') || '';
@@ -89,7 +91,7 @@ export class ProductService {
     const formData = new FormData();
     formData.append('id', productInfo.id.toString());
     if (productInfo.producerName) formData.append('producerName', productInfo.producerName);
-    if (productInfo.producerPhone) formData.append('producerPhone', productInfo.producerPhone);
+    if (productInfo.producerPhoneNumber) formData.append('producerPhone', productInfo.producerPhoneNumber);
     if (productInfo.images)     
       Object.keys(productInfo).forEach(key => {
         if (key === 'images') {
@@ -102,8 +104,9 @@ export class ProductService {
     if (productInfo.description) formData.append('description', productInfo.description);
     if (productInfo.category) formData.append('category', productInfo.category);
     if (productInfo.price) formData.append('price', productInfo.price.toString());
-    if (productInfo.originalAmount) formData.append('maxAmount', productInfo.originalAmount.toString());
+    if (productInfo.originalAmount) formData.append('originalAmount', productInfo.originalAmount.toString());
     if (productInfo.amountLeft) formData.append('amountLeft', productInfo.amountLeft.toString());
+    if (productInfo.unit) formData.append('unit', productInfo.unit);
 
 
     return this.apiConfigService.updateProductConfig('api/productservice/product', formData);

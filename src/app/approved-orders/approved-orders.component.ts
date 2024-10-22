@@ -21,6 +21,7 @@ export class ApprovedOrdersComponent {
   orders: Order[] = [];
   user: UserModel | any;
   userHere: CurrentUserModel | null = null;
+  length: number = 0;
 
   product: UpdateProductModel = {
     id: 0,
@@ -49,12 +50,14 @@ export class ApprovedOrdersComponent {
         this.loadOrders();
       }
     }
+    
   }
   loadOrders(): void {
     this.orderService.getOrdersPagination().subscribe({
       next: (response: Orders) => {
         const { orders } = response;
         this.orders = orders;
+        this.length = this.orders.filter(order => order.orderStatus === 'Approved').length;
         console.log(this.orders);
         this.populateProductNames();
         this.getOrderUserInfo();
@@ -100,32 +103,55 @@ export class ApprovedOrdersComponent {
   }
 
   async delivered(order: Order): Promise<void> {
-    for (const orderItem of order.orderItems) {
-      try {
-        this.product.id = orderItem.productID;
-        const response = await this.productService.getSingleProduct(orderItem.productID).toPromise();
 
-        if (response && response.product) {
-          const { product } = response;
-          this.product.amountLeft = product.amountLeft - orderItem.quantity;
-          console.log(this.product);
-          await this.productService.updateProduct(this.product).toPromise();
-          await this.openConfirmDialog('Order delivery confirmed', 'Removing order from list...');
-        } else {
-          throw new Error('Product not found');
-        }
-      } catch (error) {
-          await this.openErrorDialog('Error', 'Cannot confirm delivery. Please try again later.');
-          break; 
+    this.updateOrder.orderStatus = 'Delivered';
+    this.updateOrder.id = order.id;
+    this.orderService.approveRejectOrder(this.updateOrder).subscribe({
+      next: async response => {
+        await this.openConfirmDialog('Order delivered', 'Saving changes...');
+        window.location.reload();
+      },
+      error: error => {
+        this.openErrorDialog('Error', 'Cannot confirm delivery. Please try again later.');
       }
-    }
+    })
+    // for (const orderItem of order.orderItems) {
+    //   try {
+    //     this.product.id = orderItem.productID;
+    //     const response = await this.productService.getSingleProduct(orderItem.productID).toPromise();
+
+    //     if (response && response.product) {
+    //       const { product } = response;
+    //       this.product.amountLeft = product.amountLeft - orderItem.quantity;
+    //       console.log(this.product);
+    //       await this.productService.updateProduct(this.product).toPromise();
+    //       await this.openConfirmDialog('Order delivery confirmed', 'Removing order from list...');
+    //     } else {
+    //       throw new Error('Product not found');
+    //     }
+    //   } catch (error) {
+    //       await this.openErrorDialog('Error', 'Cannot confirm delivery. Please try again later.');
+    //       break; 
+    //   }
+    // }
   }
 
 
-  canceled(order: Order): void {
-    this.updateOrder.orderStatus = 'Rejected';
+  async canceled(order: Order): Promise<void> {
+    this.updateOrder.orderStatus = 'Cancelled';
     this.updateOrder.id = order.id;
     console.log(this.updateOrder);
+    this.orderService.approveRejectOrder(this.updateOrder).subscribe({
+      next: async response => {
+        await this.openConfirmDialog('Order cancelled', 'Saving changes...');
+        window.location.reload();
+        console.log(this.updateOrder)
+      },
+      error: error => {
+        this.openErrorDialog('Error', 'Cannot cancel delivery. Please try again later.');
+      }
+    })
+
   }
 
   getTotalQuantity(order: Order): string {

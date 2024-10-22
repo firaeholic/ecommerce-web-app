@@ -44,7 +44,7 @@ export class LoginComponent {
             await this.openConfirmDialog('Login Successful', 'Redirecting to home page...');
             window.location.href = '/home';
           } else {
-            await this.openConfirmDialog('Login Successful but email not verified', 'Redirecting to verify page...');
+            await this.openConfirmDialog('Login Successful', 'Email not verified. Redirecting to verification page...');
             window.location.href = '/verify-email';
           }
         },
@@ -95,6 +95,16 @@ export class LoginComponent {
         resolve();
       });
     });
+  }
+  toggleShow(): void {
+    const inputElement = document.getElementById("password") as HTMLInputElement | null;
+    if (inputElement) {
+      if (inputElement.type === "password") {
+        inputElement.type = "text";
+      } else {
+        inputElement.type = "password";
+      }
+    }
   }
 
 }

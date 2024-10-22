@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product/product.service';
 import { Product, Products } from '../shared/models/product';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
 
 @Component({
   selector: 'app-filter',
@@ -10,21 +12,24 @@ import { Product, Products } from '../shared/models/product';
 export class FilterComponent implements OnInit{
 
   constructor(
-    private productService: ProductService
+    private productService: ProductService,
+    private notification: NzNotificationService
   ) { }
 
   ngOnInit(): void {
     
   }
   productsPerPage: number = 3;
-  selectedPrice: number | null = null;
-  selectedCategory: string = 'Fruits';
+  selectedMinPrice: number | null = null;
+  selectedMaxPrice: number | null = null;
+  selectedCategory: string | null = null;
   selectedOrderBy: string | null = null;
   isAscending: string | null = '';
   AllProduct: Product[] = [];
 
 
-  categoryOptions: { label: string, value: string }[] = [
+  categoryOptions: { label: string, value: string | null }[] = [
+    { label: 'All', value: null},
     { label: 'Fruits', value: 'Fruits' },
     { label: 'Vegetables', value: 'Vegetables' },
     { label: 'Dairy Products', value: 'DairyProducts' },
@@ -47,11 +52,40 @@ export class FilterComponent implements OnInit{
     { label: 'Descending', value: 'false' }
   ];
 
-
+  buildUrl(): string {
+    let url = 'api/productservice/product/paginated?';
+    if (this.productsPerPage !== null) {
+      url += `PageSize=${this.productsPerPage}&`;
+    }
+    if (this.selectedCategory !== null) {
+      url += `Filters.category=${this.selectedCategory}&`;
+    }
+    if (this.selectedMinPrice !== null && this.selectedMaxPrice !== null) {
+      url += `Filters.%26Price=>%3D%3A%40%23${this.selectedMinPrice}%3A%40%23<%3D%3A%40%23${this.selectedMaxPrice}`;
+    }
+    if (this.selectedMinPrice !== null && this.selectedMaxPrice == null) {
+      url += `Filters.Price=%3E%3D%3A%40%23${this.selectedMinPrice}`;
+    }
+    if (this.selectedMinPrice == null && this.selectedMaxPrice !== null) {
+      url += `Filters.Price=%3C%3D%3A%40%23${this.selectedMaxPrice}`;
+    }
+    if (this.selectedOrderBy !== null) {
+      url += `OrderBy=${this.selectedOrderBy}&`;
+    }
+    if (this.isAscending !== '') {
+      url += `IsAscending=${this.isAscending}&`;
+    }
+    if (url.endsWith('&')) {
+      url = url.slice(0, -1);
+    }
+    return url;
+  }
 
 
   loadFilteredProducts(): void {
-    this.productService.getFilteredProductsPagination(this.productsPerPage, this.selectedCategory, this.selectedPrice, this.selectedOrderBy, this.isAscending).subscribe({
+    const url = this.buildUrl();
+    console.log(url);
+    this.productService.getFilteredProductsPagination(url).subscribe({
       next: (response: Products) => {
         const { products } = response;
         this.AllProduct = products.map(product => {

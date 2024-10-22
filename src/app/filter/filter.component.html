@@ -3,7 +3,7 @@
     <label for="category-select">Category</label>
     <nz-select
       id="category-select"
-      nzPlaceHolder="Category"
+      nzPlaceHolder="All"
       nzSuffixIcon="down"
       style="width: 100%;"
       [(ngModel)]="selectedCategory"
@@ -15,19 +15,19 @@
   </div>
   <div class="form-group">
     <label for="price-select">Minimum price</label>
-    <input nz-input type="number" id="price-select" [(ngModel)]="selectedPrice" placeholder="Minumum price" />
+    <input nz-input type="number" id="price-select" [(ngModel)]="selectedMinPrice" placeholder="Minumum price" />
   </div>
 
   <div class="form-group">
-    <label for="pageInput">Products per Page</label>
-    <input nz-input type="number" id="pageInput" [(ngModel)]="productsPerPage" placeholder="Products per page" />
+    <label for="maxprice-input">Maximum price</label>
+    <input nz-input type="number" id="maxprice-input" [(ngModel)]="selectedMaxPrice" placeholder="Maximum price" />
   </div>
 
   <div class="form-group">
     <label for="order-by-select">Order By</label>
     <nz-select
       id="order-by-select"
-      nzPlaceHolder="Order By"
+      nzPlaceHolder="None"
       nzSuffixIcon="down"
       style="width: 100%;"
       [(ngModel)]="selectedOrderBy"

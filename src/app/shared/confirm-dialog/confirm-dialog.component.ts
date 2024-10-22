@@ -17,7 +17,7 @@ export class ConfirmDialogComponent {
   ngOnInit(): void {
     setTimeout(() => {
       this.onClose();
-    }, 1500);
+    }, 2000);
   }
 
   onClose(): void {

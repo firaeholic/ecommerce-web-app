@@ -57,6 +57,14 @@ export class Order {
     deliveryDate!: string;
     deliveryAddress!: string;
     totalPrice!: number;
+
+    data?:{
+      message: string;
+      id: number;
+      result: any;
+      status: number;
+      resultType: string;
+    }
   }
 
   export class UpdateOrder{

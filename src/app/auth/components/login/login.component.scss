@@ -158,3 +158,13 @@ a:hover{
 .otp{
     margin-bottom: 10px;
 }
+.show-password-container {
+  margin-top: -20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+
+  input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+  }
+}

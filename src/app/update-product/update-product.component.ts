@@ -17,14 +17,14 @@ export class UpdateProductComponent implements OnInit{
   product: UpdateProductModel = {
     id: 0,
     producerName: null,
-    producerPhone: null,
+    producerPhoneNumber: null,
     name: null,
     images: null,
     category: null,
     price: null,
     amountLeft: null,
     description: null,
-    originalAmount: null
+    originalAmount: null,
   };
 
   oldProduct: Product | any;
@@ -64,6 +64,8 @@ export class UpdateProductComponent implements OnInit{
         this.product.amountLeft = this.oldProduct.amountLeft;
         this.product.description = this.oldProduct.description;
         this.product.originalAmount = this.oldProduct.originalAmount;
+        this.product.producerName = this.oldProduct.producerName;
+        this.product.producerPhoneNumber = this.oldProduct.producerPhoneNumber;
       }, error: error => {
         console.log(error)
       }

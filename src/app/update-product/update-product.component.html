@@ -25,6 +25,26 @@
                 </select>
             </div>
             <div class="filter">
+                <label for="unit">Measurement Unit:</label>
+                <select [(ngModel)]="product.unit" id="unit" name="unit" class="custom-select">
+                    <option value="Piece">Piece / Item</option>
+                    <option value="Kilogram">Kilogram</option>
+                    <option value="Gram">Gram</option>
+                    <option value="Tonne">Tonne</option>
+                    <option value="Quintal">Quintal</option>
+                    <option value="Liter">Liter</option>
+                    <option value="Box">Box</option>
+                    <option value="Pack">Pack</option>
+                    <option value="Dozen">Dozen</option>
+                    <option value="Pallet">Pallet</option>
+                    <option value="Case">Case</option>
+                    <option value="Barrel">Barrel</option>
+                    <option value="Roll">Roll</option>
+                    <option value="Meter">Meter</option>
+                    <option value="Set">Set</option>
+                </select>
+            </div>
+            <div class="filter">
                 <label for="quantity">Original Amount</label>
                 <input [(ngModel)]="product.originalAmount" type="number" id="quantity" name="quantity" #quantity placeholder="Total Quantity">
             </div>
@@ -43,11 +63,11 @@
             <p style="margin-top: -20px; color: red;">Adding images will overwrite the existing images</p>
             <div class="filter">
                 <label for="producerName">Producer name:</label>
-                <input type="text" id="producerName" name="producerName" #producerName placeholder="Producer Name">
+                <input [(ngModel)]="product.producerName" type="text" id="producerName" name="producerName" #producerName placeholder="Producer Name">
             </div>
             <div class="filter">
                 <label for="producerPhone">Producer phone number:</label>
-                <input type="text" id="producerPhone" name="producerPhone" #producerPhone placeholder="Producer Phone">
+                <input [(ngModel)]="product.producerPhoneNumber" type="text" id="producerPhone" name="producerPhone" #producerPhone placeholder="Producer Phone">
             </div>
         </div>
         <div class="buttons">

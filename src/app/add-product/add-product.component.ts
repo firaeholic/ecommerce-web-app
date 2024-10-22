@@ -21,7 +21,10 @@ export class AddProductComponent implements OnInit{
     price: 0,
     amountLeft: 0,
     description: '',
-    originalAmount: 0
+    originalAmount: 0,
+    producerName: '',
+    producerPhoneNumber: '',
+    unit: ''
   };
 
   categories = Object.values(ProductCategory)

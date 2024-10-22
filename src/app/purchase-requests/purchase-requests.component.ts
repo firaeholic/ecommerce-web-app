@@ -21,6 +21,8 @@ export class PurchaseRequestsComponent implements OnInit {
   user: UserModel | any;
   userHere: CurrentUserModel | null = null;
 
+  orderLength: number = 0;
+
   updateOrder: UpdateOrder = {
     id: 0,
     orderStatus: ''
@@ -51,6 +53,7 @@ export class PurchaseRequestsComponent implements OnInit {
       next: (response: Orders) => {
         const { orders } = response;
         this.orders = orders;
+        this.orderLength = this.orders.filter(order => order.orderStatus === 'Pending').length;
         console.log(this.orders);
         this.populateProductNames();
         this.getOrderUserInfo();
@@ -95,16 +98,24 @@ export class PurchaseRequestsComponent implements OnInit {
     this.router.navigate(['/user', userId]);
   }
 
-  approveOrder(order: Order): void {
+  async approveOrder(order: Order): Promise<void> {
     this.updateOrder.orderStatus = 'Approved';
     this.updateOrder.id = order.id;
     console.log(this.updateOrder);
+    this.orderService.approveRejectOrder(this.updateOrder).subscribe({
+    })
+    await this.openConfirmDialog('Order approved', 'Saving changes...');
+    window.location.reload();
   }
 
-  rejectOrder(order: Order): void {
-    this.updateOrder.orderStatus = 'Rejected';
+  async rejectOrder(order: Order): Promise<void> {
+    this.updateOrder.orderStatus = 'Cancelled';
     this.updateOrder.id = order.id;
     console.log(this.updateOrder);
+    this.orderService.approveRejectOrder(this.updateOrder).subscribe({
+    })
+    await this.openConfirmDialog('Order rejected', 'Saving changes...');
+    window.location.reload();
   }
 
   getTotalQuantity(order: Order): string {
@@ -114,7 +125,20 @@ export class PurchaseRequestsComponent implements OnInit {
   openErrorDialog(title: string, message: string): void {
     this.dialog.open(ErrorDialogComponent, {
       data: { title, message },
-      width: '300px'
+      width: '400px'
+    });
+  }
+
+  openConfirmDialog(title: string, message: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: { title, message },
+        width: '400px'
+      });
+  
+      dialogRef.afterClosed().subscribe(() => {
+        resolve();
+      });
     });
   }
 

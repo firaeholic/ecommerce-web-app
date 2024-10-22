@@ -74,7 +74,7 @@
                       [product]="product" 
                       [id]="product.id" 
                       [imageUrl]="product.imagesPath[0]" 
-                      [price]="product.price + ' Birr /item'" 
+                      [price]="product.price + ' Birr /' + product.unit"
                       [title]="product.name"
                       [productType]="product.category" 
                       [status]="product.amountLeft > 0 ? 'In Stock' : 'Out of Stock'" 

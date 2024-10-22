@@ -55,6 +55,9 @@ export class AddProduct{
   amountLeft!: number;
   description!: string;
   originalAmount!: number;
+  producerName!: string;
+  producerPhoneNumber!: string;
+  unit!: string;
 }
 
 export class Products {
@@ -88,7 +91,7 @@ export class ProductRequest {
 export class UpdateProductModel {
   id!: number;
   producerName?: string | null;
-  producerPhone?: string | null;
+  producerPhoneNumber?: string | null;
   images?: File[] | null;
   name?: string | null;
   description?: string | null;
@@ -96,5 +99,5 @@ export class UpdateProductModel {
   price?: number | null;
   originalAmount?: number | null;
   amountLeft?: number | null;
-
+  unit?: string | null;
 }
