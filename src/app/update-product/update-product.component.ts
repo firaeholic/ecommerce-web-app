@@ -64,6 +64,7 @@ export class UpdateProductComponent implements OnInit{
         this.product.amountLeft = this.oldProduct.amountLeft;
         this.product.description = this.oldProduct.description;
         this.product.originalAmount = this.oldProduct.originalAmount;
+        this.product.unit = this.oldProduct.unit;
         this.product.producerName = this.oldProduct.producerName;
         this.product.producerPhoneNumber = this.oldProduct.producerPhoneNumber;
       }, error: error => {

@@ -179,10 +179,13 @@ body{
   
 }
 
-.button-group {
+.button-grp-container{
   display: flex;
-  padding-left: 50px;
-  margin-left: 2%;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-group {
   margin-top: 5%;
 }
 
@@ -240,8 +243,6 @@ body{
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-
-
 .header-c span {
   display: inline-block;
   background: linear-gradient(90deg, #fafafa, #c2c2c2);
@@ -250,7 +251,7 @@ body{
 }
 
 .header-p {
-  font-size: 60px;
+  font-size: 50px;
   font-family: 'Cursive', sans-serif;
   color: #2c3e50;
   text-align: center;
@@ -280,32 +281,80 @@ body{
 .more, .less{
   color: #fff;
 }
-
-#bottone1 {
-  padding-left: 33px;
-  padding-right: 33px;
-  padding-bottom: 16px;
-  padding-top: 16px;
-  border-radius: 9px;
-  background: #d5f365;
+ 
+#bottone1:hover {
+  box-shadow: 7px 5px 56px -14px #79a7e8;
+ }
+ 
+#bottone1:active {
+  transform: scale(0.97);
+  box-shadow: 7px 5px 56px -10px #0028d9;
+ }
+.filter-button {
+  position: absolute;
+  right: 10px;
+  padding: 0px 10px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  font-family: inherit;
-  text-align: center;
+  border-radius: 4px;
+  font-size: 14px;
   cursor: pointer;
   transition: 0.4s;
- }
- 
- #bottone1:hover {
-  box-shadow: 7px 5px 56px -14px #C3D900;
- }
- 
- #bottone1:active {
-  transform: scale(0.97);
-  box-shadow: 7px 5px 56px -10px #C3D900;
- }
-
- .button-container {
+}
+.empty{
+  color: #fff;
+}
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+}
+.input-container{
   display: flex;
   justify-content: center;
-  margin-top: 2%;
+  align-items: center;
+}
+.input {
+  font-family: "Montserrat", sans-serif;
+  width: 600px;
+  height: 50px;
+  padding-left: 2.5rem;
+  box-shadow: 0 0 0 1.5px #2b2c37, 0 0 25px -17px #000;
+  border: 0;
+  border-radius: 12px;
+  background-color: #16171d;
+  outline: none;
+  color: #bdbecb;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: text;
+  z-index: 0;
+}
+
+.input::placeholder {
+  color: #bdbecb;
+}
+
+.input:hover {
+  box-shadow: 0 0 0 2.5px #2f303d, 0px 0px 25px -15px #000;
+}
+
+.input:active {
+  transform: scale(0.98);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2.5px #2f303d;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  fill: #bdbecb;
+  width: 1.1rem;
+  height: 1.1rem;
+  pointer-events: none;
+  z-index: 1;
 }

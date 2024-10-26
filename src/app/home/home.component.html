@@ -52,17 +52,39 @@
           </div>
          </div>
 
-        <div class="button-container">
-          <button routerLink="/filter" id="bottone1"><strong>More filters</strong></button>
+        <div class="input-container">
+          <div class="group">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="search-icon">
+              <g>
+                <path
+                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+                ></path>
+              </g>
+            </svg>
+          
+            <input
+              id="query"
+              class="input"
+              type="search"
+              placeholder="Search..."
+              [(ngModel)]="searchName"
+              (keydown.enter)="searchProductsByName(true)"
+            />
+              <button routerLink="/filter" id="bottone1" class="filter-button"><strong>Filters</strong></button>
+          </div>
         </div>
 
-        <div class="button-group">
-          <button nz-button nzType="primary" [class.active]="isActive(0)" (click)="setActiveButton(0)">All</button>
-          <button nz-button nzType="primary" [class.active]="isActive(1)" (click)="setActiveButton(1)">Fruits</button>
-          <button nz-button nzType="primary" [class.active]="isActive(2)" (click)="setActiveButton(2)">Vegetables</button>  
-          <button nz-button nzType="primary" [class.active]="isActive(3)" (click)="setActiveButton(3)">Dairy Products</button>
-          <button nz-button nzType="primary" [class.active]="isActive(4)" (click)="setActiveButton(4)">Other Products</button>  
-        </div>  
+        
+
+        <div class="button-grp-container">
+          <div class="button-group">
+            <button nz-button nzType="primary" [class.active]="isActive(0)" (click)="setActiveButton(0)">All</button>
+            <button nz-button nzType="primary" [class.active]="isActive(1)" (click)="setActiveButton(1)">Fruits</button>
+            <button nz-button nzType="primary" [class.active]="isActive(2)" (click)="setActiveButton(2)">Vegetables</button>  
+            <button nz-button nzType="primary" [class.active]="isActive(3)" (click)="setActiveButton(3)">Dairy Products</button>
+            <button nz-button nzType="primary" [class.active]="isActive(4)" (click)="setActiveButton(4)">Other Products</button>  
+          </div>  
+        </div>
 
         <div class="products">
 
@@ -89,7 +111,8 @@
           </div> -->
           <div class="more-container">
             <a *ngIf="AllProduct.length > 0 && (counter == 0 || second > first)" (click)="showMoreProducts()" class="more">Show More</a>
-            <div *ngIf="AllProduct.length == 0" class="empty">No products available</div>
+            <div *ngIf="activeButtonIndex === 0 && AllProduct.length == 0" class="empty">No products available</div>
+            <div *ngIf="activeButtonIndex !== 0 && specificProductLength == 0" class="empty">No products available</div>
           </div>
         </div>
 

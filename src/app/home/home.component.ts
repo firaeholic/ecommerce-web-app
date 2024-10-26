@@ -17,7 +17,6 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 })
 export class HomeComponent implements OnInit {
 
-  initialPageSize = 6;
   categories: any[] = [
     {
       name: 'Laptops',
@@ -36,27 +35,22 @@ export class HomeComponent implements OnInit {
   ];
 
   product: Product | any;
-
+  initialPageSize = 6;
   AllProduct: Product[] = [];
-
   Orders: Order[] = [];
-
-  
   loading = false;
   productPageCounter = 1;
   additionalLoading = false;
-
   isLoggedIn: boolean = false;
-
   counter: number = 0;
-
   activeButtonIndex: number = 0;
-
   userId: number = 0;
-
   first: number = 6;
   second: number = 6;
   diff: number = 0;
+  specificProductLength: number = 0;
+  searchName: string | null = null;
+  searchedByName: boolean = false;
 
   constructor(
     private router: Router,
@@ -101,9 +95,7 @@ export class HomeComponent implements OnInit {
         this.AllProduct = products.map(product => {
           product.imagesPath = product.imagesPath.map((path: string) => 
             path.replace(/\\/g, '/').replace(/ /g, '%20')
-
           );
-
           return product;
         });
         console.log(this.AllProduct);
@@ -126,12 +118,53 @@ export class HomeComponent implements OnInit {
         this.AllProduct = products.map(product => {
           product.imagesPath = product.imagesPath.map((path: string) => 
             path.replace(/\\/g, '/').replace(/ /g, '%20')
-
           );
-          console.log(product.imagesPath)
           return product;
         });
         console.log(this.AllProduct);
+        this.specificProductLength = this.AllProduct.length;
+        this.first = this.second;
+        this.second = this.AllProduct.length;
+        this.diff = this.second - this.first;
+      },
+      error: error => {
+        console.error('Error:', error);
+      }
+    });
+  }
+
+  // buildUrl(): string {
+
+  //   return url;
+  // }
+
+  searchProductsByName(isEvent: boolean): void {
+    this.searchedByName = true;
+    if (isEvent){
+      this.counter = 0;
+      this.initialPageSize = 6;
+    }
+    let url = `api/productservice/product/paginated?PageSize=${this.initialPageSize}`;
+    if (this.searchName !== null && this.searchName !== ''){
+      url += `&Filters.~Name=${this.searchName}`
+    }
+    if (this.searchName == ''){
+      url += `&Filters.~Name=.`
+    }
+    console.log(url);
+    this.productService.getFilteredProductsPagination(url).subscribe({
+      next: (response: Products) => {
+        const { products } = response;
+        this.AllProduct = products.map(product => {
+          product.imagesPath = product.imagesPath.map((path: string) => 
+            path.replace(/\\/g, '/').replace(/ /g, '%20')
+
+          );
+          return product;
+        });
+        this.first = this.second;
+        this.second = this.AllProduct.length;
+        this.diff = this.second - this.first;
       },
       error: error => {
         console.error('Error:', error);
@@ -143,9 +176,16 @@ export class HomeComponent implements OnInit {
     this.initialPageSize += 6;
     this.counter += 1;
     console.log(this.counter);
+    console.log("first", this.first)
+    console.log("second", this.second)
+    if (this.searchedByName){
+      this.searchProductsByName(false);
+      return
+    }
+
     if (this.activeButtonIndex === 0) {
       this.loadProducts();
-    } else {
+    }else {
       const categories = ['Fruits', 'Vegetables', 'DairyProducts', 'OtherProducts'];
       this.loadSpecificProducts(categories[this.activeButtonIndex - 1]);
     }
